@@ -1,0 +1,14 @@
+.root {
+  -fx-font-size: 16pt;
+  -fx-font-family: "Helvetica";
+  -fx-base: #87C7D1;
+  -fx-background: #CAE8EB;
+}
+.button {
+  -fx-background-color: #7B7F80;
+  -fx-text-fill: white;
+}
+.unique {
+  -fx-background-color: white;
+  -fx-text-fill: blue;
+}
