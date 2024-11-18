@@ -9,7 +9,7 @@ public class PrimaryController {
 
     @FXML
     private void playNarrator() {
-        Narrator.playSound("Hello World");
+        Narrator.playSound("Hola Mundo");
     }
 
     @FXML
