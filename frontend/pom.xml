@@ -18,7 +18,10 @@
         </dependency>
         
             <dependency>
-          <groupId>org.mockito</groupId>
+          <groupId>org.mockito
+          
+          
+        </groupId>
           <artifactId>mockito-core</artifactId>
           <version>4.0.0</version>
           <scope>test</scope>
@@ -107,6 +110,12 @@
             <artifactId>javafx-fxml</artifactId>
             <version>13</version>
         </dependency>
+    
+      <dependency>
+        <groupId>org.opensmarthouse.core.bundles</groupId>
+        <artifactId>org.opensmarthouse.core.audio.core</artifactId>
+        <version>0.10.1</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>

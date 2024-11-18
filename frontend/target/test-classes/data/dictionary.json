@@ -1,0 +1,322 @@
+[
+  {
+    "foreign-language": "spanish",
+    "difficulty": [
+      {
+        "difficulty": "easy",
+        "wordsbytopic": [
+          {
+            "topic": "school",
+            "words": [
+              {
+                "meaning": "A group of students meeting for instruction.",
+                "spanish": "clase",
+                "english": "class"
+              },
+              {
+                "meaning": "A set of written or printed pages, bound together.",
+                "spanish": "libro",
+                "english": "book"
+              },
+              {
+                "meaning": "A piece of furniture with a flat surface for writing or reading.",
+                "spanish": "mesa",
+                "english": "desk"
+              }
+            ]
+          },
+          {
+            "topic": "family",
+            "words": [
+              {
+                "meaning": "A woman in relation to her child or children.",
+                "spanish": "madre",
+                "english": "mother"
+              },
+              {
+                "meaning": "A man in relation to his child or children.",
+                "spanish": "padre",
+                "english": "father"
+              },
+              {
+                "meaning": "A man or boy in relation to other sons and daughters of his parents.",
+                "spanish": "hermano",
+                "english": "brother"
+              }
+            ]
+          },
+          {
+            "topic": "weather",
+            "words": [
+              {
+                "meaning": "The star around which the earth orbits.",
+                "spanish": "sol",
+                "english": "sun"
+              },
+              {
+                "meaning": "Water that falls from clouds in droplets.",
+                "spanish": "lluvia",
+                "english": "rain"
+              },
+              {
+                "meaning": "A visible mass of condensed water vapor floating in the atmosphere.",
+                "spanish": "nube",
+                "english": "cloud"
+              }
+            ]
+          },
+          {
+            "topic": "pets",
+            "words": [
+              {
+                "meaning": "A small domesticated carnivorous mammal.",
+                "spanish": "gato",
+                "english": "cat"
+              },
+              {
+                "meaning": "A domesticated carnivorous mammal.",
+                "spanish": "perro",
+                "english": "dog"
+              },
+              {
+                "meaning": "A warm-blooded egg-laying vertebrate animal.",
+                "spanish": "pajaro",
+                "english": "bird"
+              }
+            ]
+          },
+          {
+            "topic": "food",
+            "words": [
+              {
+                "meaning": "The round fruit of a tree of the rose family.",
+                "spanish": "manzana",
+                "english": "apple"
+              },
+              {
+                "meaning": "Food made of flour, water, and yeast mixed together.",
+                "spanish": "pan",
+                "english": "bread"
+              },
+              {
+                "meaning": "A white liquid produced by the mammary glands of mammals.",
+                "spanish": "leche",
+                "english": "milk"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "difficulty": "medium",
+        "wordsbytopic": [
+          {
+            "topic": "school",
+            "words": [
+              {
+                "meaning": "Schoolwork that a student is required to do at home.",
+                "spanish": "tarea",
+                "english": "homework"
+              },
+              {
+                "meaning": "A building or room containing collections of books.",
+                "spanish": "biblioteca",
+                "english": "library"
+              },
+              {
+                "meaning": "A bag with shoulder straps.",
+                "spanish": "mochila",
+                "english": "backpack"
+              }
+            ]
+          },
+          {
+            "topic": "family",
+            "words": [
+              {
+                "meaning": "A child of one's uncle or aunt.",
+                "spanish": "primo",
+                "english": "cousin"
+              },
+              {
+                "meaning": "The father of one's father or mother.",
+                "spanish": "abuelo",
+                "english": "grandfather"
+              },
+              {
+                "meaning": "A son of one's brother or sister.",
+                "spanish": "sobrino",
+                "english": "nephew"
+              }
+            ]
+          },
+          {
+            "topic": "weather",
+            "words": [
+              {
+                "meaning": "A storm with thunder and lightning.",
+                "spanish": "tormenta",
+                "english": "thunderstorm"
+              },
+              {
+                "meaning": "A thick cloud of tiny water droplets suspended in the atmosphere.",
+                "spanish": "bruma",
+                "english": "fog"
+              },
+              {
+                "meaning": "The state of being humid.",
+                "spanish": "humedad",
+                "english": "humidity"
+              }
+            ]
+          },
+          {
+            "topic": "pets",
+            "words": [
+              {
+                "meaning": "A small rodent kept as a pet.",
+                "spanish": "hámster",
+                "english": "hamster"
+              },
+              {
+                "meaning": "A tank for keeping live fish.",
+                "spanish": "pecera",
+                "english": "aquarium"
+              },
+              {
+                "meaning": "Legally take another's child and bring it up as one's own.",
+                "spanish": "adoptar",
+                "english": "adopt"
+              }
+            ]
+          },
+          {
+            "topic": "food",
+            "words": [
+              {
+                "meaning": "A plant or part of a plant used as food.",
+                "spanish": "verdura",
+                "english": "vegetable"
+              },
+              {
+                "meaning": "A set of instructions for preparing a particular dish.",
+                "spanish": "receta",
+                "english": "recipe"
+              },
+              {
+                "meaning": "A device on which food is cooked by exposure to direct heat.",
+                "spanish": "grill",
+                "english": "grill"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "difficulty": "hard",
+        "wordsbytopic": [
+          {
+            "topic": "school",
+            "words": [
+              {
+                "meaning": "The subjects comprising a course of study.",
+                "spanish": "currículo",
+                "english": "curriculum"
+              },
+              {
+                "meaning": "A long essay on a particular subject.",
+                "spanish": "disertación",
+                "english": "dissertation"
+              },
+              {
+                "meaning": "Relating to education and scholarship.",
+                "spanish": "académico",
+                "english": "academic"
+              }
+            ]
+          },
+          {
+            "topic": "family",
+            "words": [
+              {
+                "meaning": "A line of descent traced continuously from an ancestor.",
+                "spanish": "genealogía",
+                "english": "genealogy"
+              },
+              {
+                "meaning": "The process of passing on of titles, property.",
+                "spanish": "herencia",
+                "english": "inheritance"
+              },
+              {
+                "meaning": "The position of protecting someone.",
+                "spanish": "tutela",
+                "english": "guardianship"
+              }
+            ]
+          },
+          {
+            "topic": "weather",
+            "words": [
+              {
+                "meaning": "Rain, snow, sleet, or hail that falls to the ground.",
+                "spanish": "precipitación",
+                "english": "precipitation"
+              },
+              {
+                "meaning": "The amount of moisture in the atmosphere.",
+                "spanish": "humedad",
+                "english": "moisture"
+              },
+              {
+                "meaning": "A climate that is hot and humid.",
+                "spanish": "tropical",
+                "english": "tropical"
+              }
+            ]
+          },
+          {
+            "topic": "pets",
+            "words": [
+              {
+                "meaning": "The scientific study of animal behavior.",
+                "spanish": "etología",
+                "english": "ethology"
+              },
+              {
+                "meaning": "A small water-dwelling amphibian commonly kept as a pet.",
+                "spanish": "salamandra",
+                "english": "salamander"
+              },
+              {
+                "meaning": "The process of cleaning, brushing, and maintaining the appearance of an animal.",
+                "spanish": "aseo",
+                "english": "grooming"
+              }
+            ]
+          },
+          {
+            "topic": "food",
+            "words": [
+              {
+                "meaning": "A sweet crystalline substance obtained from various plants.",
+                "spanish": "azúcar",
+                "english": "sugar"
+              },
+              {
+                "meaning": "The process of cultivating soil and growing crops.",
+                "spanish": "agricultura",
+                "english": "agriculture"
+              },
+              {
+                "meaning": "An edible mushroom grown on farms.",
+                "spanish": "champiñón",
+                "english": "mushroom"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
