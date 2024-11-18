@@ -22,6 +22,16 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
+        
+            <dependency>
+          <groupId>org.mockito
+          
+          
+        </groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>4.0.0</version>
+          <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -83,6 +93,31 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.1.0-alpha1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version> <!-- or the latest version -->
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>13</version>
+        </dependency>
+    
+      <dependency>
+        <groupId>org.opensmarthouse.core.bundles</groupId>
+        <artifactId>org.opensmarthouse.core.audio.core</artifactId>
+        <version>0.10.1</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>
