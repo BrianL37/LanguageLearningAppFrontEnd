@@ -8,31 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
-    private static Scene scene;
-
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 800, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    public void start(Stage primaryStage) {
+        try {
+            // Load the Login.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("/library/Login.fxml"));
+            primaryStage.setTitle("Language Learning App");
+            primaryStage.setScene(new Scene(root, 400, 400));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to load Login.fxml. Ensure the file is in src/main/resources/library.");
+        }
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
-
 }

@@ -1,14 +1,18 @@
-.root {
-  -fx-font-size: 16pt;
-  -fx-font-family: "Helvetica";
-  -fx-base: #87C7D1;
-  -fx-background: #CAE8EB;
+.label {
+  -fx-font-size: 18px;
+  -fx-text-fill: #4A4A4A;
 }
+
+.text-field, .password-field, .button {
+  -fx-font-size: 14px;
+  -fx-padding: 5 10;
+}
+
 .button {
-  -fx-background-color: #7B7F80;
+  -fx-background-color: #4CAF50;
   -fx-text-fill: white;
 }
-.unique {
-  -fx-background-color: white;
-  -fx-text-fill: blue;
+
+.button:hover {
+  -fx-background-color: #45A049;
 }
