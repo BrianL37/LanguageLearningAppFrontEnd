@@ -1,4 +1,4 @@
-package library;
+package model;
 
 /**
  * this enumeration holds the different language types the app offers 

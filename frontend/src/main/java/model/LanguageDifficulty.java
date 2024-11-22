@@ -1,4 +1,4 @@
-package library;
+package model;
 
 /**
  * This helps categorize content based on learner proficiency.

@@ -1,4 +1,4 @@
-package library;
+package model;
 
 /**  
 This can be used to classify words based on their grammatical roles, such as

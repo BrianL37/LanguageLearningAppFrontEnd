@@ -1,4 +1,4 @@
-package library;
+package model;
 
 import java.util.UUID;
 import java.util.ArrayList;

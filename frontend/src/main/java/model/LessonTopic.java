@@ -1,4 +1,4 @@
-package library;
+package model;
 
     /** 
 Each topic provides a thematic focus for vocabulary and phrases,

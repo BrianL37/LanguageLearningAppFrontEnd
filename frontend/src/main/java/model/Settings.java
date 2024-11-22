@@ -1,4 +1,4 @@
-package library;
+package model;
 
 /**
  * The Settings class defines properties for notifications, 

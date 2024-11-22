@@ -1,4 +1,4 @@
-package library;
+package model;
 
 import javax.swing.JPanel;
 import javax.swing.*;

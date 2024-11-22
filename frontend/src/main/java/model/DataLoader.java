@@ -49,6 +49,18 @@ public class DataLoader extends DataConstants{
       }
     }
 
+    public static String getQuestionTypeString(Object object) {
+      if (object instanceof MultipleChoice) 
+        return MULTIPLECHOICE;
+      else if (object instanceof FillBlank) 
+        return FILLBLANK;
+      else if (object instanceof Matching) 
+        return MATCHING;
+      else if (object instanceof Flashcard) 
+        return FLASHCARD;
+      return null;
+    }
+
  /**
    * Returns a casted object of one of the lesson objects depending on 
    * what is passed in to differentiate the different lesson objects

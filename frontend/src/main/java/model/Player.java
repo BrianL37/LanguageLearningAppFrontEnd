@@ -1,4 +1,4 @@
-package library;
+package model;
 
 /**
  * This class controls player movement on the board
