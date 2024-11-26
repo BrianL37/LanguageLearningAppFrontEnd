@@ -5,6 +5,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -23,20 +25,18 @@ public class QuestionController {
     @FXML private LanguageLearningSystemFacade facade;
     @FXML private TextArea questionPrompt;
     @FXML private VBox multipleChoiceContainer;
-    @FXML private TextField fillBlankUserInput;
-    @FXML private VBox matchingContainer;
+    @FXML private TextField fillBlankUserInput;;
     @FXML private StackPane flashcardPane;
     @FXML private Label flashcardLabel;
     @FXML private Label questionTypeLabel;
     @FXML private Button interactButton; 
     @FXML private ToggleGroup buttonGroup;
-    @FXML RadioButton option1;
-    @FXML RadioButton option2;
-    @FXML RadioButton option3;
-    @FXML RadioButton option4;
+    @FXML RadioButton option1, option2, option3, option4;
     @FXML private Object currentQuestion;
     @FXML private int currentQuestionId;
     @FXML private TextArea questionCorrectAnswerBox;
+    @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
+    @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
 
 
   public void initialize() {
@@ -44,7 +44,7 @@ public class QuestionController {
   facade.login("JimSmith01", "SmithRocks");
   facade.continueLanguage(ForeignLanguage.SPANISH);
   facade.startLesson(LessonTopic.PETS);
-  setQuestion(facade.getLesson().getFillBlank(0), 0);
+  setQuestion(facade.getLesson().getMatching(), 0);
   buttonGroup = new ToggleGroup();
   option1.setToggleGroup(buttonGroup);
   option2.setToggleGroup(buttonGroup);
@@ -66,8 +66,6 @@ public class QuestionController {
                   flashcardLabel.setText(facade.getLesson().getFlashcards().get(currentQuestionId).getCurrentWord().getForeign());
               }
           });
-
-
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
               interactButton.setText("Advance");
@@ -89,8 +87,24 @@ public class QuestionController {
                 break;
 
             case "Matching":
-              matchingContainer.setVisible(true);
-              interactButton.setText("Check Answer");
+              flashcardPane.setVisible(true);
+              flashcardPane.setStyle("-fx-background-color: transparent;");
+              questionPrompt.setVisible(false);
+              interactButton.setText("Check Pairs");
+              card1.setVisible(true);
+              card2.setVisible(true);
+              card3.setVisible(true);
+              card4.setVisible(true);
+              card5.setVisible(true);
+              card6.setVisible(true);
+              String prompt = facade.getLesson().matchPrompt();
+              String[] split = prompt.split("\n");
+              cardText1.setText(split[0]);
+              cardText2.setText(split[1]);
+              cardText3.setText(split[2]);
+              cardText4.setText(split[3]);
+              cardText5.setText(split[4]);
+              cardText6.setText(split[5]);
               break;
 
             case "Fill in the Blank":
@@ -124,8 +138,29 @@ public class QuestionController {
               facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
             }
         }
+        interactButton.setText("Advance");
         break;
         case "Matching":
+        if (selected1 != null && selected2 != null) {
+          String card1Text = ((Text) selected1.getChildren().get(1)).getText();
+          String card2Text = ((Text) selected2.getChildren().get(1)).getText();
+          for(Word word : facade.getLesson().getWords()) {
+            if(word.getForeign().equals(card1Text) && word.getEnglish().equals(card2Text)) {
+              correctPair(selected1, selected2);
+              questionCorrectAnswerBox.setText("That pair is correct!");
+              break;
+            }
+            else {
+             questionCorrectAnswerBox.setText("So close! Try again!");
+            }
+          }
+        }
+        if(card1.isDisabled() && card2.isDisabled() && card3.isDisabled()) {
+          facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion);
+          questionCorrectAnswerBox.setText("All pairs are correct!");
+          interactButton.setText("Advance");
+          break;
+        }
         break;
         case "Fill in the Blank":
         String answer = fillBlankUserInput.getText();
@@ -137,13 +172,51 @@ public class QuestionController {
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
+        interactButton.setText("Advance");
         break;
       }
-      interactButton.setText("Advance");
     }
 
     @FXML
     private void playNarrator() {
         Narrator.playSound("Hola Mundo");
     }
+
+    @FXML
+    public void handlePaneClick1(MouseEvent event) {
+        StackPane clickedPane = (StackPane) event.getSource();
+        if (selected1 != null) {
+            resetPane(selected1);
+        }
+        selectCard(clickedPane);
+        selected1 = clickedPane;
+    }
+
+    @FXML
+    public void handlePaneClick2(MouseEvent event) {
+        StackPane clickedPane = (StackPane) event.getSource();
+        if (selected2 != null) {
+            resetPane(selected2);
+        }
+        selectCard(clickedPane);
+        selected2 = clickedPane;
+    }
+    private void correctPair(StackPane pane1, StackPane pane2) {
+      Rectangle rectangle1 = (Rectangle) pane1.getChildren().get(0);
+      Rectangle rectangle2 = (Rectangle) pane2.getChildren().get(0);
+      rectangle1.setFill(Color.GREEN);
+      rectangle2.setFill(Color.GREEN);
+      pane1.setDisable(true);
+      pane2.setDisable(true);
+  }
+
+    private void selectCard(StackPane pane) {
+        Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
+        rectangle.setStroke(Color.BLACK); 
+        rectangle.setStrokeWidth(3);
+    }
+    private void resetPane(StackPane pane) {
+      Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
+      rectangle.setStroke(null);
+  }
 }

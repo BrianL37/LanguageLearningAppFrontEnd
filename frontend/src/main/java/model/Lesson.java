@@ -15,6 +15,7 @@ public class Lesson {
   private ArrayList<Object> questions;
   private LanguageDifficulty difficulty;
   private static DictionaryManager manager;
+  private ArrayList<Word> words;
 
   /**
    * Parameterized Constructor for Lesson that creates a 
@@ -28,6 +29,7 @@ public class Lesson {
     this.difficulty = difficulty;
     this.topic = topic;
     this.questions = new ArrayList<>();
+    this.words = manager.getWordsByTopic(difficulty, topic);
     createFlashCard();
     createMatching();
     createMultipleChoice();
@@ -342,5 +344,9 @@ public class Lesson {
 
   public void setQuestions(ArrayList<Object> questions) {
     this.questions = questions;
+  }
+
+  public ArrayList<Word> getWords() {
+    return this.words;
   }
 }

@@ -35,6 +35,17 @@
 
 }
 
+.text-style {
+  -fx-font-size: 20px;
+  -fx-text-fill: white;
+}
+
+.correct-pair {
+  -fill : green;
+  -fx-border-color: black; 
+  -fx-border-width: 3;
+}
+
 .text-area {
   -fx-background-color: #8CE1F5;
 }
