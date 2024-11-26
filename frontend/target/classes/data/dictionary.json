@@ -69,17 +69,17 @@
             "topic": "pets",
             "words": [
               {
-                "meaning": "A small domesticated carnivorous mammal.",
+                "meaning": "A soft, furry animal that purrs when it’s happy",
                 "spanish": "gato",
                 "english": "cat"
               },
               {
-                "meaning": "A domesticated carnivorous mammal.",
+                "meaning": "A friendly animal that often barks.",
                 "spanish": "perro",
                 "english": "dog"
               },
               {
-                "meaning": "A warm-blooded egg-laying vertebrate animal.",
+                "meaning": "A creature that has feathers and can fly",
                 "spanish": "pajaro",
                 "english": "bird"
               }
