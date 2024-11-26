@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,9 +17,12 @@ import narrator.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import library.App;
 import model.*;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 public class QuestionController {
@@ -45,9 +49,6 @@ public class QuestionController {
   facade.continueLanguage(ForeignLanguage.SPANISH);
   facade.startLesson(LessonTopic.PETS);
   questions = facade.getLesson().getQuestions();
-  for(int i = 0; i < 7; ++i) {
-    questions.remove(0);
-  }
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
   option1.setToggleGroup(buttonGroup);
@@ -146,16 +147,23 @@ public class QuestionController {
 
     @FXML
     private void handleClick() {
-        if(interactButton.getText().equals("Advance")) {
+        if(interactButton.getText().equals("Return to Main Menu")) {
+          try {
+            switchToLogin();
+            return;
+          } catch (Exception e) {
+          }
+        }
+        else if(interactButton.getText().equals("Advance")) {
           if(questions.size() >= 1) {
             questions.remove(0);           
-            if(questions.size() < 1) {
-              questionCorrectAnswerBox.setText("You have completed the lesson!");
-              interactButton.setText("Return to Main Menu");
-              return;
-            } else {
+          }            
+          if(questions.size() < 1) {
+            questionCorrectAnswerBox.setText("You have completed the lesson!");
+            interactButton.setText("Return to Main Menu");
+            return;
+          } else {
           setQuestion(questions.get(0));
-            }
           }
         questionCorrectAnswerBox.setVisible(false);
         return;
@@ -261,4 +269,20 @@ public class QuestionController {
       Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
       rectangle.setStroke(null);
   }
+
+      @FXML
+    public void switchToLogin() {
+        try {
+            // Load the login.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Login.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage
+            Stage stage = (Stage) fillBlankUserInput.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
