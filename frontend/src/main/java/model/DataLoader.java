@@ -51,13 +51,13 @@ public class DataLoader extends DataConstants{
 
     public static String getQuestionTypeString(Object object) {
       if (object instanceof MultipleChoice) 
-        return MULTIPLECHOICE;
+        return "Multiple Choice";
       else if (object instanceof FillBlank) 
-        return FILLBLANK;
+        return "Fill in the Blank";
       else if (object instanceof Matching) 
-        return MATCHING;
+        return "Matching";
       else if (object instanceof Flashcard) 
-        return FLASHCARD;
+        return "Flashcard";
       return null;
     }
 

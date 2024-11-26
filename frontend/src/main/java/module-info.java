@@ -12,6 +12,7 @@ module library {
     requires org.slf4j.simple;
     requires software.amazon.awssdk.awscore;
     requires software.amazon.eventstream;
+    requires javafx.graphics;
     
     opens library to javafx.fxml;
 
