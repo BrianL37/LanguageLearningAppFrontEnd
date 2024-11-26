@@ -42,9 +42,10 @@ public class Lesson {
    * and adds them to this.questions
    */
   private void createFlashCard() {
-    ArrayList<Word> words = manager.getWordsByTopic(this.difficulty, this.topic);
+    int i = 0;
     for(Word word : words) {
-      Flashcard card = new Flashcard(word);
+      ++i;
+      Flashcard card = new Flashcard(word, i);
       this.questions.add(card);
     }
   }
@@ -169,7 +170,7 @@ public class Lesson {
       case PETS:
       this.questions.add(new FillBlank("A ___ enjoys climbing high places and napping", manager.getWord(this.difficulty,this.topic,"gato"),0));
       this.questions.add(new FillBlank("The ___ loves to play fetch", manager.getWord(this.difficulty,this.topic,"perro"),1));
-      this.questions.add(new FillBlank("My pet ____ always flies to greet me when I come home", manager.getWord(this.difficulty,this.topic,"pájaro"),2));
+      this.questions.add(new FillBlank("My pet ____ always flies to greet me when I come home", manager.getWord(this.difficulty,this.topic,"pajaro"),2));
       break;
     }
   }

@@ -11,17 +11,19 @@ public class Flashcard {
     private String front;
     private String back;
     private boolean isFlipped;
+    private int id;
 
     /**
      * initializes flashcard 
      * @param front
      * @param back
      */
-    public Flashcard(Word word) {
+    public Flashcard(Word word,int id) {
         front = word.getForeign();
         back = word.getEnglish();
         this.word = word;
         this.isFlipped = false;
+        this.id = id;
     }
     /**
      * sets the front of the flashcard 
@@ -47,6 +49,10 @@ public class Flashcard {
       ArrayList<Word> words = new ArrayList<>();
       words.add(this.word);
       return words;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
 

@@ -37,14 +37,18 @@ public class QuestionController {
     @FXML private TextArea questionCorrectAnswerBox;
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
-
+    @FXML private ArrayList<Object> questions;
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
   facade.login("JimSmith01", "SmithRocks");
   facade.continueLanguage(ForeignLanguage.SPANISH);
   facade.startLesson(LessonTopic.PETS);
-  setQuestion(facade.getLesson().getMatching(), 0);
+  questions = facade.getLesson().getQuestions();
+  for(int i = 0; i < 7; ++i) {
+    questions.remove(0);
+  }
+  setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
   option1.setToggleGroup(buttonGroup);
   option2.setToggleGroup(buttonGroup);
@@ -52,29 +56,46 @@ public class QuestionController {
   option4.setToggleGroup(buttonGroup);
  }
 
- public void setQuestion(Object question, int id) {;
-    currentQuestion = question;
-    currentQuestionId = id;
-    String questionType = DataLoader.getQuestionTypeString(question);
+ public void setQuestion(Object question) {
+   questionCorrectAnswerBox.setVisible(false);
+   multipleChoiceContainer.setVisible(false);
+   card1.setVisible(false);
+   card2.setVisible(false);
+   card3.setVisible(false);
+   card4.setVisible(false);
+   card5.setVisible(false);
+   card6.setVisible(false);
+   flashcardLabel.setVisible(false);
+   questionPrompt.setVisible(false);
+   flashcardPane.setVisible(false);
+   currentQuestion = question;
+   String questionType = DataLoader.getQuestionTypeString(question);
     questionTypeLabel.setText(questionType);
         switch (questionType) {
             case "Flashcard":
+               Flashcard card = (Flashcard) currentQuestion;
+                currentQuestionId = card.getId();
                flashcardPane.setOnMouseClicked(event -> {
-              if (flashcardLabel.getText().equals(facade.getLesson().getFlashcards().get(currentQuestionId).getCurrentWord().getForeign())) {
-                  flashcardLabel.setText(facade.getLesson().getFlashcards().get(currentQuestionId).getCurrentWord().getEnglish());
+              if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
+                  flashcardLabel.setText(card.getCurrentWord().getEnglish());
               } else {
-                  flashcardLabel.setText(facade.getLesson().getFlashcards().get(currentQuestionId).getCurrentWord().getForeign());
+                  flashcardLabel.setText(card.getCurrentWord().getForeign());
               }
-          });
+              });
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
-              interactButton.setText("Advance");
               questionPrompt.setVisible(false);
               flashcardLabel.setVisible(true);
-              flashcardLabel.setText(facade.getLesson().getFlashcards().get(0).getCurrentWord().getForeign());
+              flashcardLabel.setText(card.getCurrentWord().getForeign());
+              interactButton.setText("Advance");
                 break;
 
             case "Multiple Choice":
+              flashcardPane.setStyle("-fx-background-color: transparent;");
+              flashcardPane.setVisible(true);
+              questionPrompt.setVisible(true);
+              MultipleChoice multipleChoice = (MultipleChoice) currentQuestion;
+              currentQuestionId = multipleChoice.getId();
               multipleChoiceContainer.setVisible(true);
               interactButton.setText("Check Answer");
               questionPrompt.setText(facade.getLesson().multipleChoicePrompt((MultipleChoice) currentQuestion));
@@ -89,8 +110,9 @@ public class QuestionController {
             case "Matching":
               flashcardPane.setVisible(true);
               flashcardPane.setStyle("-fx-background-color: transparent;");
+              flashcardLabel.setVisible(false);
               questionPrompt.setVisible(false);
-              interactButton.setText("Check Pairs");
+              interactButton.setText("Check Pair");
               card1.setVisible(true);
               card2.setVisible(true);
               card3.setVisible(true);
@@ -108,7 +130,12 @@ public class QuestionController {
               break;
 
             case "Fill in the Blank":
-              questionPrompt.setText(facade.getLesson().getFillBlank(0).getContent().get(0).getEnglish());
+              flashcardPane.setStyle("-fx-background-color: transparent;");
+              flashcardPane.setVisible(true);
+              questionPrompt.setVisible(true);
+              FillBlank fillBlank = (FillBlank) currentQuestion;
+              currentQuestionId = fillBlank.getId();
+              questionPrompt.setText(fillBlank.getContent().get(0).getEnglish());
               fillBlankUserInput.setVisible(true);
               interactButton.setText("Check Answer");
               break;
@@ -119,6 +146,20 @@ public class QuestionController {
 
     @FXML
     private void handleClick() {
+        if(interactButton.getText().equals("Advance")) {
+          if(questions.size() >= 1) {
+            questions.remove(0);           
+            if(questions.size() < 1) {
+              questionCorrectAnswerBox.setText("You have completed the lesson!");
+              interactButton.setText("Return to Main Menu");
+              return;
+            } else {
+          setQuestion(questions.get(0));
+            }
+          }
+        questionCorrectAnswerBox.setVisible(false);
+        return;
+      }
       questionCorrectAnswerBox.setVisible(true);
       String questionType = DataLoader.getQuestionTypeString(currentQuestion);
       switch (questionType) {
@@ -164,17 +205,18 @@ public class QuestionController {
         break;
         case "Fill in the Blank":
         String answer = fillBlankUserInput.getText();
-        if (facade.getLesson().checkFillBlank(currentQuestionId, answer) && !answer.isEmpty()) {
+        if (answer.equals(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign())) {
           questionCorrectAnswerBox.setText("Correct!");
-          facade.getUser().correct(facade.getLesson().getTopic(), facade.getLesson().getFillBlank(currentQuestionId));
+          facade.getUser().correct(facade.getLesson().getTopic(), (FillBlank)currentQuestion);
         } else {
-          facade.getUser().incorrect(facade.getLesson().getTopic(), facade.getLesson().getFillBlank(currentQuestionId));
+          facade.getUser().incorrect(facade.getLesson().getTopic(), (FillBlank)currentQuestion);
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
         interactButton.setText("Advance");
         break;
       }
+
     }
 
     @FXML
@@ -183,7 +225,7 @@ public class QuestionController {
     }
 
     @FXML
-    public void handlePaneClick1(MouseEvent event) {
+    private void handlePaneClick1(MouseEvent event) {
         StackPane clickedPane = (StackPane) event.getSource();
         if (selected1 != null) {
             resetPane(selected1);
@@ -193,7 +235,7 @@ public class QuestionController {
     }
 
     @FXML
-    public void handlePaneClick2(MouseEvent event) {
+    private void handlePaneClick2(MouseEvent event) {
         StackPane clickedPane = (StackPane) event.getSource();
         if (selected2 != null) {
             resetPane(selected2);
