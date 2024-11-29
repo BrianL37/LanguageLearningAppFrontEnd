@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.UserProfileController" style="-fx-padding: 30;">
+    <!-- Header Section -->
+    <Text text="User Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <!-- User Information Section -->
+    <VBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 20; -fx-background-color: #f0f0f0; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <Label fx:id="nameLabel" text="Name: " style="-fx-font-size: 18px;" />
+        <Label fx:id="usernameLabel" text="Username: " style="-fx-font-size: 18px;" />
+        <Label fx:id="emailLabel" text="Email: " style="-fx-font-size: 18px;" />
+    </VBox>
+
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Edit Profile" style="-fx-font-size: 16px; -fx-background-color: #4caf50; -fx-text-fill: white;" />
+        <Button text="Logout" onAction="#logout" style="-fx-font-size: 16px; -fx-background-color: #f44336; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

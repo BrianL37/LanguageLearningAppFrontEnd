@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Text?>
+
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ChooseLessonController" style="-fx-padding: 30;">
+    <!-- Header Section -->
+    <Text text="Choose a Lesson" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <!-- Lesson List Section -->
+    <ListView fx:id="lessonListView" style="-fx-pref-width: 300; -fx-pref-height: 400; -fx-background-color: #ffffff;" />
+
+    <!-- Action Buttons -->
+    <VBox spacing="15" alignment="CENTER">
+        <Button text="Select Lesson" onAction="#selectLesson" style="-fx-font-size: 16px; -fx-background-color: #4caf50; -fx-text-fill: white;" />
+        <Button text="Back to Profile" onAction="#backToProfile" style="-fx-font-size: 16px; -fx-background-color: #f44336; -fx-text-fill: white;" />
+    </VBox>
+</VBox>
