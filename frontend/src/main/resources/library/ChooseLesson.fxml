@@ -5,16 +5,19 @@
 <?import javafx.scene.text.Text?>
 
 <VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.ChooseLessonController" style="-fx-padding: 30;">
+      fx:controller="controllers.ChooseLessonController" style="-fx-background-color: #8CE1F5; -fx-padding: 30;">
     <!-- Header Section -->
-    <Text text="Choose a Lesson" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Text text="Choose a Lesson" style="-fx-font-size: 35px; -fx-text-fill: #8CE1F5;" />
 
     <!-- Lesson List Section -->
-    <ListView fx:id="lessonListView" style="-fx-pref-width: 300; -fx-pref-height: 400; -fx-background-color: #ffffff;" />
+    <ListView fx:id="lessonListView" style="-fx-pref-width: 300; -fx-pref-height: 400; 
+                -fx-background-color: #8CE1F5; -fx-font-size: 14px; -fx-padding: 5 10;" />
 
     <!-- Action Buttons -->
     <VBox spacing="15" alignment="CENTER">
-        <Button text="Select Lesson" onAction="#selectLesson" style="-fx-font-size: 16px; -fx-background-color: #4caf50; -fx-text-fill: white;" />
-        <Button text="Back to Profile" onAction="#backToProfile" style="-fx-font-size: 16px; -fx-background-color: #f44336; -fx-text-fill: white;" />
+        <Button text="Select Lesson" onAction="#selectLesson" 
+                style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-padding: 10;" />
+        <Button text="Homepage" onAction="#goToHomepage" 
+                style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-padding: 10;" />
     </VBox>
 </VBox>
