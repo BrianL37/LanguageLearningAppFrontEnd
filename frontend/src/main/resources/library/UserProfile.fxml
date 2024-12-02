@@ -13,9 +13,13 @@
     <!-- Editable User Information Section -->
     <VBox spacing="15" alignment="CENTER" style="-fx-background-color: #f9f9f9; -fx-border-color: #8CE1F5;
                  -fx-border-width: 2; -fx-border-radius: 10; -fx-padding: 20;">
-        <TextField fx:id="nameField" promptText="Enter full name" 
+        <TextField fx:id="firstNameField" promptText="Enter first name" 
+                   style="-fx-font-size: 18px; -fx-border-color: #8CE1F5; -fx-border-width: 1;" />
+        <TextField fx:id="lastNameField" promptText="Enter last name" 
                    style="-fx-font-size: 18px; -fx-border-color: #8CE1F5; -fx-border-width: 1;" />
         <TextField fx:id="usernameField" promptText="Enter username" 
+                   style="-fx-font-size: 18px; -fx-border-color: #8CE1F5; -fx-border-width: 1;" />
+        <TextField fx:id="passwordField" promptText="Enter password" 
                    style="-fx-font-size: 18px; -fx-border-color: #8CE1F5; -fx-border-width: 1;" />
         <TextField fx:id="emailField" promptText="Enter email" 
                    style="-fx-font-size: 18px; -fx-border-color: #8CE1F5; -fx-border-width: 1;" />
