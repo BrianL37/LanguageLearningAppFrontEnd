@@ -1,80 +1,79 @@
 package controllers;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 
 public class BoardGameController {
-    private ImageView token;
-    private GameStateController gameStateController;
 
     @FXML
-    private VBox boardGameRoot;
+    private GridPane gridPane;
+
+    @FXML
+    private ImageView playerIcon;
+
+    private int currentRow = 0;
+    private int currentColumn = 0;
+    private boolean moveRight = true;
 
     @FXML
     private void initialize() {
-        gameStateController = GameStateController.getInstance();
-        gameStateController.setBoardGameController(this);
+        // Load the image directly in the controller
+        Image playerImage = new Image(getClass().getResource("/images/player.png").toExternalForm());
+        playerIcon.setImage(playerImage);
 
-        try {
-            GridPane grid = new GridPane();
-            boardGameRoot.getChildren().add(grid);
+        // Initialize the player position
+        movePlayer(currentRow, currentColumn);
+    }
 
-            createBoard(grid);
-            token = new ImageView(new Image("path/to/token/image.png"));
-            token.setFitWidth(50);  // Adjust token size
-            token.setFitHeight(50);
-            updateTokenPosition();
+    public void movePlayer(int newRow, int newColumn) {
+        if (newRow >= 0 && newRow < gridPane.getRowConstraints().size() &&
+            newColumn >= 0 && newColumn < gridPane.getColumnConstraints().size()) {
+            
+            // Remove the player icon from its current position
+            StackPane currentPane = (StackPane) gridPane.getChildren().stream()
+                    .filter(node -> GridPane.getRowIndex(node) == currentRow &&
+                                    GridPane.getColumnIndex(node) == currentColumn)
+                    .findFirst()
+                    .orElse(null);
+            
+            if (currentPane != null) {
+                currentPane.getChildren().remove(playerIcon);
+            }
 
-            grid.getChildren().add(token);
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Add the player icon to the new position
+            StackPane newPane = (StackPane) gridPane.getChildren().stream()
+                    .filter(node -> GridPane.getRowIndex(node) == newRow &&
+                                    GridPane.getColumnIndex(node) == newColumn)
+                    .findFirst()
+                    .orElse(null);
+
+            if (newPane != null) {
+                newPane.getChildren().add(playerIcon);
+                currentRow = newRow;
+                currentColumn = newColumn;
+            }
         }
     }
 
-    private void createBoard(GridPane grid) {
-        Button chooseLessonButton = new Button("Choose Lesson");
-        chooseLessonButton.setOnAction(e -> goToChooseLesson());
-        grid.add(chooseLessonButton, 0, 0);
-
-        // Display spaces on the board (not buttons, just visual representation)
-        for (int i = 1; i < 50; i++) {
-            // Create labels for other spaces on the board
-            // Placeholders for other spaces
-            Button button = new Button("Space " + (i + 1));
-            int column = i % 10;  // 10 columns
-            int row = i / 10;    // 5 rows
-            grid.add(button, column, row);
+    public void moveToNextSquare() {
+        if (moveRight) {
+            if (currentColumn < gridPane.getColumnConstraints().size() - 1) {
+                movePlayer(currentRow, currentColumn + 1);
+            } else if (currentRow < gridPane.getRowConstraints().size() - 1) {
+                movePlayer(currentRow + 1, currentColumn);
+                moveRight = false;
+            }
+        } else {
+            if (currentColumn > 0) {
+                movePlayer(currentRow, currentColumn - 1);
+            } else if (currentRow < gridPane.getRowConstraints().size() - 1) {
+                movePlayer(currentRow + 1, currentColumn);
+                moveRight = true;
+            }
         }
     }
 
-    public void updateTokenPosition() {
-        int column = gameStateController.getCurrentPosition() % 10;
-        int row = gameStateController.getCurrentPosition() / 10;
-        GridPane.setColumnIndex(token, column);
-        GridPane.setRowIndex(token, row);
-    }
-
-    private void goToChooseLesson() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/ChooseLesson.fxml"));
-            GridPane grid = loader.load();
-
-            Stage stage = (Stage) boardGameRoot.getScene().getWindow();
-            stage.setScene(new Scene(grid));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void advanceToken() {
-        gameStateController.advanceToken();
-    }
 }
