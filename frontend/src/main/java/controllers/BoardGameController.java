@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -8,36 +7,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 
-/**
- * @author Michael Carson 
- * Creates a button in the first space to access the choose lesson page 
- * 
- * Creates the board which tracks user progress 
- */
-public class BoardGameController extends Application {
+public class BoardGameController {
     private ImageView token;
     private GameStateController gameStateController;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    @FXML
+    private VBox boardGameRoot;
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Board Game");
-
+    @FXML
+    private void initialize() {
         gameStateController = GameStateController.getInstance();
         gameStateController.setBoardGameController(this);
 
         try {
             GridPane grid = new GridPane();
-            Scene scene = new Scene(grid, 800, 800);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            boardGameRoot.getChildren().add(grid);
 
             createBoard(grid);
-            token = new ImageView(new Image("path/to/your/token/image.png"));
+            token = new ImageView(new Image("path/to/token/image.png"));
             token.setFitWidth(50);  // Adjust token size
             token.setFitHeight(50);
             updateTokenPosition();
@@ -54,8 +44,13 @@ public class BoardGameController extends Application {
         grid.add(chooseLessonButton, 0, 0);
 
         // Display spaces on the board (not buttons, just visual representation)
-        for (int i = 0; i < 50; i++) {
-            // You can add Labels or other nodes to visualize the spaces
+        for (int i = 1; i < 50; i++) {
+            // Create labels for other spaces on the board
+            // Placeholders for other spaces
+            Button button = new Button("Space " + (i + 1));
+            int column = i % 10;  // 10 columns
+            int row = i / 10;    // 5 rows
+            grid.add(button, column, row);
         }
     }
 
@@ -71,7 +66,7 @@ public class BoardGameController extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/ChooseLesson.fxml"));
             GridPane grid = loader.load();
 
-            Stage stage = (Stage) token.getScene().getWindow();
+            Stage stage = (Stage) boardGameRoot.getScene().getWindow();
             stage.setScene(new Scene(grid));
             stage.show();
         } catch (Exception e) {
@@ -83,4 +78,3 @@ public class BoardGameController extends Application {
         gameStateController.advanceToken();
     }
 }
-
