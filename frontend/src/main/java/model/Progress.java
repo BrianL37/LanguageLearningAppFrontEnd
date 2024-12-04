@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.scene.chart.PieChart.Data;
+
 /**
  * The Progress class tracks a the user's progress through a language, 
  * progress through each lesson in the langauge, all of their 
@@ -41,7 +43,7 @@ public class Progress{
     */
   public void setIncomplete(LessonTopic topic, ArrayList<Object> questions) {
     this.incomplete.put(topic, questions);
-    this.lessonProgress.put(topic, 8 - questions.size());
+    this.lessonProgress.put(topic, 10 - questions.size());
   }
 
   /**
@@ -60,17 +62,49 @@ public class Progress{
      * questions collection
      * Mainly used for FillBlank, MultipleChoice, Matching
      */
-  public void updateCorrect(LessonTopic topic, Object question) {
-      if(this.lessonProgress.get(topic) < 8) {
-    try {
-      if(this.incomplete.get(topic).contains(question)) {
-        this.languageProgress++;
-        this.lessonProgress.put(topic, this.lessonProgress.get(topic) + 1);
-        this.incomplete.get(topic).remove(question);
-        this.trouble.get(topic).remove(question);
-      }
-    } catch (Exception e) {
+  public void updateCorrect(LessonTopic topic, Object question, int id) {
+    String type = DataLoader.getQuestionTypeString(question);
+    switch(type) {
+      case "Matching":
+        for(Object obj : this.incomplete.get(topic)) {
+            if(obj instanceof Matching) {
+              this.incomplete.get(topic).remove(obj);
+              this.languageProgress++;
+              this.lessonProgress.put(topic, this.lessonProgress.get(topic) + 1);
+              return;
+            }
+        }
+        break;
+      case "Multiple Choice":
+      for(Object obj : this.incomplete.get(topic)) {
+        if(obj instanceof MultipleChoice && ((MultipleChoice)obj).getId() == id) {
+          this.incomplete.get(topic).remove(obj);
+          this.languageProgress++;
+          this.lessonProgress.put(topic, this.lessonProgress.get(topic) + 1);
+          return;
+        }
     }
+        break;
+      case "Fill in the Blank":
+      for(Object obj : this.incomplete.get(topic)) {
+        if(obj instanceof FillBlank && ((FillBlank)obj).getId() == id) {
+          this.incomplete.get(topic).remove(obj);
+          this.languageProgress++;
+          this.lessonProgress.put(topic, this.lessonProgress.get(topic) + 1);
+          return;
+        }
+    }
+        break;
+      case "Flashcard":
+      for(Object obj : this.incomplete.get(topic)) {
+        if(obj instanceof Flashcard && ((Flashcard)obj).getId() == id) {
+          this.incomplete.get(topic).remove(obj);
+          this.languageProgress++;
+          this.lessonProgress.put(topic, this.lessonProgress.get(topic) + 1);
+          return;
+        }
+    }
+        break;
     }
   }
 
@@ -81,7 +115,6 @@ public class Progress{
    */
   public void updateIncomplete(LessonTopic topic, Object toAdd) {
     for(Question question : this.trouble.get(topic).keySet()) {
-      System.out.println("hi");
         if(!this.trouble.get(topic).containsKey(question)) {
           this.trouble.get(topic).put(question, 1);
         }
@@ -166,4 +199,6 @@ public class Progress{
   public ForeignLanguage getLanguage() {
     return this.language; 
   }
+
+
 }

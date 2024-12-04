@@ -24,6 +24,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+
 
 public class QuestionController {
     @FXML private LanguageLearningSystemFacade facade;
@@ -37,7 +39,7 @@ public class QuestionController {
     @FXML private ToggleGroup buttonGroup;
     @FXML RadioButton option1, option2, option3, option4;
     @FXML private Object currentQuestion;
-    @FXML private int currentQuestionId;
+    @FXML private int currentQuestionId, questionNumber;
     @FXML private TextArea questionCorrectAnswerBox;
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
@@ -49,6 +51,7 @@ public class QuestionController {
   facade.continueLanguage(ForeignLanguage.SPANISH);
   facade.startLesson(LessonTopic.PETS);
   questions = facade.getLesson().getQuestions();
+  questionNumber = 0;
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
   option1.setToggleGroup(buttonGroup);
@@ -69,6 +72,7 @@ public class QuestionController {
    flashcardLabel.setVisible(false);
    questionPrompt.setVisible(false);
    flashcardPane.setVisible(false);
+   fillBlankUserInput.setVisible(false);
    currentQuestion = question;
    String questionType = DataLoader.getQuestionTypeString(question);
     questionTypeLabel.setText(questionType);
@@ -82,6 +86,7 @@ public class QuestionController {
               } else {
                   flashcardLabel.setText(card.getCurrentWord().getForeign());
               }
+              facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
               });
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
@@ -109,6 +114,7 @@ public class QuestionController {
                 break;
 
             case "Matching":
+              currentQuestionId = 0;
               flashcardPane.setVisible(true);
               flashcardPane.setStyle("-fx-background-color: transparent;");
               flashcardLabel.setVisible(false);
@@ -120,6 +126,7 @@ public class QuestionController {
               card4.setVisible(true);
               card5.setVisible(true);
               card6.setVisible(true);
+              questionCorrectAnswerBox.setText("Please select a pair");
               String prompt = facade.getLesson().matchPrompt();
               String[] split = prompt.split("\n");
               cardText1.setText(split[0]);
@@ -147,26 +154,33 @@ public class QuestionController {
 
     @FXML
     private void handleClick() {
-        if(interactButton.getText().equals("Return to Main Menu")) {
-          try {
-            switchToLogin();
-            return;
-          } catch (Exception e) {
-          }
-        }
-        else if(interactButton.getText().equals("Advance")) {
-          if(questions.size() >= 1) {
-            questions.remove(0);           
-          }            
-          if(questions.size() < 1) {
-            questionCorrectAnswerBox.setText("You have completed the lesson!");
-            interactButton.setText("Return to Main Menu");
-            return;
+      switch(interactButton.getText()) {
+        case "Try Again":
+          questionNumber = 0;
+          resetCards();
+          initialize();
+          return;
+        case "Continue to Board":
+          switchToBoardGame();
+          return;
+        case "Advance":       
+        if(questionNumber == 9) {
+          questionCorrectAnswerBox.setText("You scored " + facade.getUser().getLessonProgress(facade.getLesson().getTopic()) + "/10");
+          if(facade.getUser().getLessonProgress(facade.getLesson().getTopic()) > 8){
+            questionCorrectAnswerBox.appendText("\nYou have completed the lesson!");
+            interactButton.setText("Continue to Board");
           } else {
-          setQuestion(questions.get(0));
+            questionCorrectAnswerBox.appendText("\nYou have not completed the lesson. Please try again.");
+            interactButton.setText("Try Again");
           }
-        questionCorrectAnswerBox.setVisible(false);
-        return;
+          return;
+        } else {
+          setQuestion(questions.get(++questionNumber));
+        }
+          questionCorrectAnswerBox.setVisible(false);
+          return;
+        default:
+          break;
       }
       questionCorrectAnswerBox.setVisible(true);
       String questionType = DataLoader.getQuestionTypeString(currentQuestion);
@@ -175,18 +189,19 @@ public class QuestionController {
         break;
         case "Multiple Choice":
         Toggle selectedToggle = buttonGroup.getSelectedToggle();
+        String selectedText = "";
         if (selectedToggle != null) {
             RadioButton selectedRadioButton = (RadioButton) selectedToggle;
-            String selectedText = selectedRadioButton.getText();
-            if(selectedText.equals(facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign())) {
-              questionCorrectAnswerBox.setText("Correct!");
-              facade.getUser().correct(facade.getLesson().getTopic(), facade.getLesson().getMultipleChoice(currentQuestionId));
-            } else {
-              facade.getUser().incorrect(facade.getLesson().getTopic(), facade.getLesson().getMultipleChoice(currentQuestionId));
-              questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
-              facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
-            }
+            selectedText = selectedRadioButton.getText();
         }
+        if(selectedText.equals(facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign())) {
+          questionCorrectAnswerBox.setText("Correct!");
+          facade.getUser().correct(facade.getLesson().getTopic(), currentQuestion, currentQuestionId);
+        } else {
+          questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
+          facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
+        }
+
         interactButton.setText("Advance");
         break;
         case "Matching":
@@ -205,7 +220,7 @@ public class QuestionController {
           }
         }
         if(card1.isDisabled() && card2.isDisabled() && card3.isDisabled()) {
-          facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion);
+          facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion, currentQuestionId);
           questionCorrectAnswerBox.setText("All pairs are correct!");
           interactButton.setText("Advance");
           break;
@@ -215,9 +230,8 @@ public class QuestionController {
         String answer = fillBlankUserInput.getText();
         if (answer.equals(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign())) {
           questionCorrectAnswerBox.setText("Correct!");
-          facade.getUser().correct(facade.getLesson().getTopic(), (FillBlank)currentQuestion);
+          facade.getUser().correct(facade.getLesson().getTopic(), (FillBlank)currentQuestion, currentQuestionId);
         } else {
-          facade.getUser().incorrect(facade.getLesson().getTopic(), (FillBlank)currentQuestion);
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
@@ -236,7 +250,7 @@ public class QuestionController {
     private void handlePaneClick1(MouseEvent event) {
         StackPane clickedPane = (StackPane) event.getSource();
         if (selected1 != null) {
-            resetPane(selected1);
+            unselectCard(selected1);
         }
         selectCard(clickedPane);
         selected1 = clickedPane;
@@ -246,7 +260,7 @@ public class QuestionController {
     private void handlePaneClick2(MouseEvent event) {
         StackPane clickedPane = (StackPane) event.getSource();
         if (selected2 != null) {
-            resetPane(selected2);
+            unselectCard(selected2);
         }
         selectCard(clickedPane);
         selected2 = clickedPane;
@@ -265,18 +279,45 @@ public class QuestionController {
         rectangle.setStroke(Color.BLACK); 
         rectangle.setStrokeWidth(3);
     }
-    private void resetPane(StackPane pane) {
+    private void unselectCard(StackPane pane) {
       Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
       rectangle.setStroke(null);
   }
+    private void resetCards() {
+      selected1 = null;
+      selected2 = null;
+      card1.setDisable(false);
+      card2.setDisable(false);
+      card3.setDisable(false);
+      card4.setDisable(false);
+      card5.setDisable(false);
+      card6.setDisable(false);
+      Rectangle rectangle1 = (Rectangle) card1.getChildren().get(0);
+      Rectangle rectangle2 = (Rectangle) card2.getChildren().get(0);
+      Rectangle rectangle3 = (Rectangle) card3.getChildren().get(0);
+      Rectangle rectangle4 = (Rectangle) card4.getChildren().get(0);
+      Rectangle rectangle5 = (Rectangle) card5.getChildren().get(0);
+      Rectangle rectangle6 = (Rectangle) card6.getChildren().get(0);
+      rectangle1.setFill(Color.web("#8CE1F5"));
+      rectangle2.setFill(Color.web("#8CE1F5"));
+      rectangle3.setFill(Color.web("#8CE1F5"));
+      rectangle4.setFill(Color.web("#8CE1F5"));
+      rectangle5.setFill(Color.web("#8CE1F5"));
+      rectangle6.setFill(Color.web("#8CE1F5"));
+      unselectCard(card1);
+      unselectCard(card2);
+      unselectCard(card3);
+      unselectCard(card4);
+      unselectCard(card5);
+      unselectCard(card6);
+    }
 
       @FXML
-    public void switchToLogin() {
+    public void switchToBoardGame() {
         try {
             // Load the login.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/BoardGame.fxml"));
             Parent root = loader.load();
-
             // Get the current stage
             Stage stage = (Stage) fillBlankUserInput.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -285,4 +326,5 @@ public class QuestionController {
             e.printStackTrace();
         }
     }
+
 }
