@@ -254,8 +254,8 @@ public class User {
     this.progress.setLanguageProgress(progress);
   }
 
-  public void correct(LessonTopic topic, Object question) {
-    this.progress.updateCorrect(topic,question);
+  public void correct(LessonTopic topic, Object question, int id) {
+    this.progress.updateCorrect(topic,question,id);
    }
 
   public void incorrect(LessonTopic topic, Object question) {

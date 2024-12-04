@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.UUID;
-import javax.swing.plaf.multi.MultiPanelUI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -129,7 +128,9 @@ public class DataWriter extends DataConstants{
               questionObj.put(QUESTION_ID, toAdd.getId());
             }
             else if(object instanceof Flashcard) {
+              Flashcard toAdd = (Flashcard)object;
               questionObj.put(QUESTIONTYPE, FLASHCARD);
+              questionObj.put(QUESTION_ID, toAdd.getId());
             }
             questionTypes.add(questionObj);
             addedQuestions.add(object);

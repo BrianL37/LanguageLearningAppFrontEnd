@@ -1,10 +1,15 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import model.LanguageLearningSystemFacade;
 
 public class BoardGameController {
 
@@ -17,15 +22,20 @@ public class BoardGameController {
     private int currentRow = 0;
     private int currentColumn = 0;
     private boolean moveRight = true;
+    private LanguageLearningSystemFacade facade;
 
     @FXML
     private void initialize() {
+        facade = LanguageLearningSystemFacade.getInstance();
+        facade.login("JimSmith01", "SmithRocks");
         // Load the image directly in the controller
         Image playerImage = new Image(getClass().getResource("/images/player.png").toExternalForm());
         playerIcon.setImage(playerImage);
-
         // Initialize the player position
         movePlayer(currentRow, currentColumn);
+        for(int i = 0; i < facade.getUser().getLanguageProgress() - 2; i++) {
+            moveToNextSquare();
+        }
     }
 
     public void movePlayer(int newRow, int newColumn) {
@@ -75,5 +85,18 @@ public class BoardGameController {
             }
         }
     }
-
+      @FXML
+    public void switchToChooseLesson() {
+        try {
+            // Load the login.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/ChooseLesson.fxml"));
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) gridPane.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

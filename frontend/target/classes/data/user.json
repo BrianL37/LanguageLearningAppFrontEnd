@@ -9,13 +9,16 @@
                     {
                         "question-type": [
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 2
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 1
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 0
                             },
                             {
                                 "question-type": "multiplechoice",
@@ -50,13 +53,16 @@
                     {
                         "question-type": [
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 1
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 2
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 0
                             },
                             {
                                 "question-type": "multiplechoice",
@@ -91,13 +97,16 @@
                     {
                         "question-type": [
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 2
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 1
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 0
                             },
                             {
                                 "question-type": "multiplechoice",
@@ -132,13 +141,16 @@
                     {
                         "question-type": [
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 2
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 1
                             },
                             {
-                                "question-type": "flashcard"
+                                "question-type": "flashcard",
+                                "question-id": 0
                             },
                             {
                                 "question-type": "multiplechoice",

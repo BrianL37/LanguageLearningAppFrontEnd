@@ -201,27 +201,11 @@ public class DataLoader extends DataConstants{
               case MATCHING:
                 incompleteObjects.get(topic).add(tempNewLesson.getMatching()); break;
               case FLASHCARD: 
-                for(Flashcard card : tempNewLesson.getFlashcards()) {
-                  incompleteObjects.get(topic).add(card);
-                }
+                  incompleteObjects.get(topic).add(tempNewLesson.getFlashcards().get(longValue.intValue())); break;
               case MULTIPLECHOICE:
-                switch(longValue.intValue()) {
-                  case 0:
-                  incompleteObjects.get(topic).add(tempNewLesson.getMultipleChoice(0)); break;
-                  case 1:
-                  incompleteObjects.get(topic).add(tempNewLesson.getMultipleChoice(1)); break;
-                  case 2:
-                  incompleteObjects.get(topic).add(tempNewLesson.getMultipleChoice(2)); break;
-                } break;
+                  incompleteObjects.get(topic).add(tempNewLesson.getMultipleChoice(longValue.intValue())); break;
               case FILLBLANK:
-                switch(longValue.intValue()) {
-                case 0:
-                incompleteObjects.get(topic).add(tempNewLesson.getFillBlank(0)); break;
-                case 1:
-                incompleteObjects.get(topic).add(tempNewLesson.getFillBlank(1)); break;
-                case 2:
-                incompleteObjects.get(topic).add(tempNewLesson.getFillBlank(2)); break;
-              } break;
+                incompleteObjects.get(topic).add(tempNewLesson.getFillBlank(longValue.intValue())); break;
             }
           }
           user.setModule(module);
