@@ -15,7 +15,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the Login.fxml file
-            Parent root = FXMLLoader.load(getClass().getResource("/library/QuestionController.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/library/ChooseLanguage.fxml"));
             primaryStage.setTitle("Language Learning App");
             primaryStage.setScene(new Scene(root, 800, 800));
             primaryStage.show();

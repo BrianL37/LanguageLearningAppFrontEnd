@@ -1,13 +1,17 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import model.User;
+import model.UserList;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class SignUpController {
 
@@ -26,6 +30,8 @@ public class SignUpController {
     @FXML
     private PasswordField passwordField;
 
+    private UserList userList = UserList.getInstance(); // Singleton for user management
+
     @FXML
     public void handleSignup() {
         String firstName = firstNameField.getText();
@@ -34,13 +40,26 @@ public class SignUpController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Add signup logic here (e.g., save user details to database or file)
-        System.out.println("Signing up with details:");
-        System.out.println("First Name: " + firstName);
-        System.out.println("Last Name: " + lastName);
-        System.out.println("Email: " + email);
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        // Validate input
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            showAlert("Error", "All fields must be filled out.");
+            return;
+        }
+
+        if (password.length() < 8) {
+            showAlert("Error", "Password must be at least 8 characters long.");
+            return;
+        }
+
+        // Add user to UserList
+        UUID userID = UUID.randomUUID();
+        userList.addUser(firstName, lastName, username, password, email, userID);
+
+        // Save user data
+        userList.saveUsers();
+
+        showAlert("Success", "Account created successfully!");
+        switchToLogin();
     }
 
     @FXML
@@ -52,7 +71,14 @@ public class SignUpController {
             stage.setScene(loginScene);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Failed to load Login.fxml. Check the file path.");
+            showAlert("Error", "Failed to load Login.fxml. Check the file path.");
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -3,8 +3,30 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import model.User;
 
 public class HomepageController {
+
+    private User currentUser;
+
+    @FXML
+    private Label welcomeLabel;
+
+    /**
+     * Initializes the homepage with the logged-in user's information.
+     * @param user The logged-in user.
+     */
+    public void initializeUser(User user) {
+        this.currentUser = user;
+
+        // Example: Use user data to personalize the homepage
+        String welcomeMessage = "Welcome, " + user.getFirstName() + "!";
+        if (welcomeLabel != null) {
+            welcomeLabel.setText(welcomeMessage);
+        }
+        System.out.println(welcomeMessage);
+    }
 
     @FXML
     private void openSettings(ActionEvent event) {
