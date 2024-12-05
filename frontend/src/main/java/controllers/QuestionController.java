@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.application.Platform;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class QuestionController {
@@ -44,18 +45,14 @@ public class QuestionController {
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
     @FXML private ArrayList<Object> questions;
+  
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
-  facade.login("JimSmith01", "SmithRocks");
-  facade.continueLanguage(ForeignLanguage.SPANISH);
-  facade.startLesson(LessonTopic.PETS);
-  facade.getUser().changeSetting(2, 1);
-  facade.getUser().changeSetting(1, 0);
+  questions = facade.getLesson().getQuestions();
   if(facade.getUser().getSettings().getLightMode() == 0) {
     Platform.runLater(() -> toggleDarkMode());
   }
-  questions = facade.getLesson().getQuestions();
   questionNumber = 0;
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
@@ -80,13 +77,15 @@ public class QuestionController {
    fillBlankUserInput.setVisible(false);
    currentQuestion = question;
    String questionType = DataLoader.getQuestionTypeString(question);
-    questionTypeLabel.setText(questionType);
+   questionTypeLabel.setText(questionType);
+   AtomicBoolean clicked = new AtomicBoolean(false);
         switch (questionType) {
             case "Flashcard":
                Flashcard card = (Flashcard) currentQuestion;
                 currentQuestionId = card.getId();
                flashcardPane.setOnMouseClicked(event -> {
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
+                  clicked.set(true);
                   flashcardLabel.setText(card.getCurrentWord().getEnglish());
                   if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
                     Narrator.playSound(card.getCurrentWord().getEnglish(),true);
@@ -97,8 +96,10 @@ public class QuestionController {
                     Narrator.playSound(card.getCurrentWord().getForeign(),false);
                   }
               }
-              facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
               });
+              if(clicked.get()) {
+                facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
+              }
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
               questionPrompt.setVisible(false);
@@ -423,7 +424,7 @@ public class QuestionController {
             Parent root = loader.load();
             // Get the current stage
             Stage stage = (Stage) fillBlankUserInput.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 800, 800));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
