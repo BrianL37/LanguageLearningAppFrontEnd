@@ -30,7 +30,7 @@ public class ChooseLessonController {
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
         facade.login("JimSmith01", "SmithRocks");
-        facade.continueLanguage(ForeignLanguage.SPANISH);
+        facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
         //facade.getUser().changeSetting(2, 1);
         facade.getUser().changeSetting(1, 0);
     
