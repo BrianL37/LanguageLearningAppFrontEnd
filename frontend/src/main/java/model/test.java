@@ -10,7 +10,6 @@ public class test {
     //facade.continueLanguage(ForeignLanguage.SPANISH);
     facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
     facade.startLesson(LessonTopic.FAMILY);
-    System.out.println(facade.getLesson().getQuestions());
     facade.getUser().correct(facade.getLesson().getTopic(), facade.getLesson().getQuestions().get(0), 0);
     facade.getUser().correct(facade.getLesson().getTopic(), facade.getLesson().getQuestions().get(1), 1);
     facade.getUser().correct(facade.getLesson().getTopic(), facade.getLesson().getQuestions().get(2), 2);
@@ -18,7 +17,6 @@ public class test {
     // facade.getLesson().getQuestions().get(0);
     // facade.getLesson().getQuestions().get(1);
     // facade.getLesson().getQuestions().get(2);
-    System.out.println(facade.getLesson().getQuestions());
     System.out.println(facade.getUser().getLessonProgress(LessonTopic.FAMILY));
 
 

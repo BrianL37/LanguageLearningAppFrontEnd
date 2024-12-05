@@ -50,7 +50,7 @@ public class QuestionController {
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
-  questions = facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY).getLesson(facade.getLesson().getTopic()).getQuestions();
+  questions = facade.startLesson(facade.getLesson().getTopic()).getQuestions();
   if(facade.getUser().getSettings().getLightMode() == 0) {
     Platform.runLater(() -> toggleDarkMode());
   }
@@ -83,9 +83,9 @@ public class QuestionController {
    questionTypeLabel.setText(questionType);
         switch (questionType) {
             case "Flashcard":
+              clicked = false;
                Flashcard card = (Flashcard) currentQuestion;
                currentQuestionId = card.getId();
-               System.out.println(currentQuestionId);
                flashcardPane.setOnMouseClicked(event -> {
               clicked = true;
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
@@ -100,9 +100,6 @@ public class QuestionController {
                   }
               }
               });
-              if(clicked) {
-                facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
-              }
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
               questionPrompt.setVisible(false);
@@ -198,7 +195,6 @@ public class QuestionController {
           switchToBoardGame();
           return;
         case "Advance":
-        //System.out.println(facade.getUser().getLessonProgress(facade.getLesson().getTopic()));
         if(questionNumber >= 9) {
           questionCorrectAnswerBox.setVisible(true);
           questionCorrectAnswerBox.setText("You scored " + facade.getUser().getLessonProgress(facade.getLesson().getTopic()) + "/10");
@@ -217,6 +213,9 @@ public class QuestionController {
           }
           return;
         } else {
+          if(clicked && currentQuestion instanceof Flashcard) {
+            facade.getUser().correct(facade.getLesson().getTopic(), (Flashcard)currentQuestion, currentQuestionId);
+          }
           setQuestion(questions.get(++questionNumber));
         }
           return;
@@ -340,7 +339,7 @@ public class QuestionController {
         Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
         rectangle.setStroke(Color.BLACK); 
         rectangle.setStrokeWidth(3);
-        if(facade.getUser().getSettings().getLightMode() == 1) {
+        if(facade.getUser().getSettings().getLightMode() == 0) {
           rectangle.setStroke(Color.WHITE);
         }
     }
