@@ -42,7 +42,7 @@ public class BoardGameController {
         System.out.println(facade.getUser().getSettings().getLightMode());
         if(facade.getUser().getSettings().getLightMode() == 0) {
          root.setStyle("-fx-background-color: black;");
-          updateBoardColors();
+          updateBoardColors(true);
         }
         // Initialize the player position
         movePlayer(currentRow, currentColumn);
@@ -113,20 +113,27 @@ public class BoardGameController {
         }
     }
 
-    private void updateBoardColors() { 
+    private void updateBoardColors(boolean darkModeBoard) { 
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) { 
             final int currentRow = row;
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) { 
                 final int currentCol = col;
                 StackPane pane = (StackPane) gridPane.getChildren().stream().filter(node -> GridPane.getRowIndex(node) == currentRow && GridPane.getColumnIndex(node) == currentCol) .findFirst() .orElse(null); 
                 if (pane != null) {
-                     if ((row + col) % 2 == 0) {
-                         pane.setStyle("-fx-background-color: #f2f2f2;");
-                 } else { 
-                    pane.setStyle("-fx-background-color: #d9d9d9;"); } 
+                    if ((row + col) % 2 == 0) { 
+                        //change even spaces 
+                        if (darkModeBoard) { 
+                            pane.setStyle("-fx-background-color: #333333;");
+                        } else { pane.setStyle("-fx-background-color: #f2f2f2;"); }
+                        //change odd spaces 
+                     } else { 
+                        if (darkModeBoard) { 
+                            pane.setStyle("-fx-background-color: #444444;"); 
+                        } else { pane.setStyle("-fx-background-color: #d9d9d9;"); 
+                    } 
                 } 
             } 
         } 
     }
-
+}
 }
