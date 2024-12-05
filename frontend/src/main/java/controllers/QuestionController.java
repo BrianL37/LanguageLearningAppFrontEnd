@@ -25,22 +25,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.application.Platform;
 
 
 public class QuestionController {
+    @FXML private boolean isDarkMode = false;
     @FXML private LanguageLearningSystemFacade facade;
-    @FXML private TextArea questionPrompt;
-    @FXML private VBox multipleChoiceContainer;
+    @FXML private VBox multipleChoiceContainer, root;
     @FXML private TextField fillBlankUserInput;;
     @FXML private StackPane flashcardPane;
-    @FXML private Label flashcardLabel;
-    @FXML private Label questionTypeLabel;
+    @FXML private Label questionTypeLabel, flashcardLabel;
     @FXML private Button interactButton; 
     @FXML private ToggleGroup buttonGroup;
     @FXML RadioButton option1, option2, option3, option4;
     @FXML private Object currentQuestion;
     @FXML private int currentQuestionId, questionNumber;
-    @FXML private TextArea questionCorrectAnswerBox;
+    @FXML private TextArea questionCorrectAnswerBox, questionPrompt;
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
     @FXML private ArrayList<Object> questions;
@@ -50,6 +50,11 @@ public class QuestionController {
   facade.login("JimSmith01", "SmithRocks");
   facade.continueLanguage(ForeignLanguage.SPANISH);
   facade.startLesson(LessonTopic.PETS);
+  facade.getUser().changeSetting(2, 1);
+  facade.getUser().changeSetting(1, 0);
+  if(facade.getUser().getSettings().getLightMode() == 0) {
+    Platform.runLater(() -> toggleDarkMode());
+  }
   questions = facade.getLesson().getQuestions();
   questionNumber = 0;
   setQuestion(questions.get(0));
@@ -83,8 +88,14 @@ public class QuestionController {
                flashcardPane.setOnMouseClicked(event -> {
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
                   flashcardLabel.setText(card.getCurrentWord().getEnglish());
+                  if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
+                    Narrator.playSound(card.getCurrentWord().getEnglish(),true);
+                  }
               } else {
                   flashcardLabel.setText(card.getCurrentWord().getForeign());
+                  if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
+                    Narrator.playSound(card.getCurrentWord().getForeign(),false);
+                  }
               }
               facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
               });
@@ -93,6 +104,10 @@ public class QuestionController {
               questionPrompt.setVisible(false);
               flashcardLabel.setVisible(true);
               flashcardLabel.setText(card.getCurrentWord().getForeign());
+              if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
+                Narrator.playSound("Flashcard",true);
+                Narrator.playSound(card.getCurrentWord().getForeign(),false);
+              }
               interactButton.setText("Advance");
                 break;
 
@@ -111,6 +126,13 @@ public class QuestionController {
               option2.setText(choiceArray[1]);
               option3.setText(choiceArray[2]);
               option4.setText(choiceArray[3]);
+              if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof MultipleChoice) {
+                Narrator.playSound("Multiple Choice",true);
+                Narrator.playSound(questionPrompt.getText(),true);
+                for(int i = 0; i < 4; i++) {
+                  Narrator.playSound(choiceArray[i],false);
+                }
+              }
                 break;
 
             case "Matching":
@@ -135,6 +157,9 @@ public class QuestionController {
               cardText4.setText(split[3]);
               cardText5.setText(split[4]);
               cardText6.setText(split[5]);
+              if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+                Narrator.playSound("Matching",true);
+              }
               break;
 
             case "Fill in the Blank":
@@ -146,7 +171,11 @@ public class QuestionController {
               questionPrompt.setText(fillBlank.getContent().get(0).getEnglish());
               fillBlankUserInput.setVisible(true);
               interactButton.setText("Check Answer");
-              break;
+              if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
+                Narrator.playSound("Fill in the Blank",true);
+                Narrator.playSound(questionPrompt.getText(),true);
+              }
+                break;
             default:
                 throw new IllegalArgumentException("Unknown question type");
         }
@@ -167,9 +196,15 @@ public class QuestionController {
         if(questionNumber == 9) {
           questionCorrectAnswerBox.setText("You scored " + facade.getUser().getLessonProgress(facade.getLesson().getTopic()) + "/10");
           if(facade.getUser().getLessonProgress(facade.getLesson().getTopic()) > 8){
-            questionCorrectAnswerBox.appendText("\nYou have completed the lesson!");
+            if(facade.getUser().getSettings().getTextToSpeech() == 1) {
+              Narrator.playSound("Congratulations! You have completed the lesson!",true);
+            }
+            questionCorrectAnswerBox.appendText("\nCongratulations! You have completed the lesson!");
             interactButton.setText("Continue to Board");
           } else {
+            if(facade.getUser().getSettings().getTextToSpeech() == 1) {
+              Narrator.playSound("You have not completed the lesson. Please try again.",true);
+            }
             questionCorrectAnswerBox.appendText("\nYou have not completed the lesson. Please try again.");
             interactButton.setText("Try Again");
           }
@@ -195,9 +230,16 @@ public class QuestionController {
             selectedText = selectedRadioButton.getText();
         }
         if(selectedText.equals(facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign())) {
+          if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof MultipleChoice) {
+            Narrator.playSound("Correct!",true);
+          }
           questionCorrectAnswerBox.setText("Correct!");
           facade.getUser().correct(facade.getLesson().getTopic(), currentQuestion, currentQuestionId);
         } else {
+          if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof MultipleChoice) {
+            Narrator.playSound("Incorrect, the correct answer was ",true);
+            Narrator.playSound(facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign(),false);
+          }
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
@@ -206,21 +248,32 @@ public class QuestionController {
         break;
         case "Matching":
         if (selected1 != null && selected2 != null) {
+          Boolean isCorrect = false;
           String card1Text = ((Text) selected1.getChildren().get(1)).getText();
           String card2Text = ((Text) selected2.getChildren().get(1)).getText();
           for(Word word : facade.getLesson().getWords()) {
             if(word.getForeign().equals(card1Text) && word.getEnglish().equals(card2Text)) {
+              isCorrect = true;
               correctPair(selected1, selected2);
+              if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+                Narrator.playSound("That pair is correct!",true);
+              }
               questionCorrectAnswerBox.setText("That pair is correct!");
               break;
+            } 
+          }
+          if(!isCorrect) {
+            if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+              Narrator.playSound("So close! Try again.",true);
             }
-            else {
-             questionCorrectAnswerBox.setText("So close! Try again!");
-            }
+            questionCorrectAnswerBox.setText("So close! Try again.");
           }
         }
         if(card1.isDisabled() && card2.isDisabled() && card3.isDisabled()) {
           facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion, currentQuestionId);
+          if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+            Narrator.playSound("All pairs are correct!",true);
+          }
           questionCorrectAnswerBox.setText("All pairs are correct!");
           interactButton.setText("Advance");
           break;
@@ -229,9 +282,16 @@ public class QuestionController {
         case "Fill in the Blank":
         String answer = fillBlankUserInput.getText();
         if (answer.equals(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign())) {
+          if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
+            Narrator.playSound("Correct!", true);
+          }
           questionCorrectAnswerBox.setText("Correct!");
           facade.getUser().correct(facade.getLesson().getTopic(), (FillBlank)currentQuestion, currentQuestionId);
         } else {
+          if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
+            Narrator.playSound("Incorrect, the correct answer was ", true);
+            Narrator.playSound(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign(), false);
+          }
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
@@ -242,11 +302,6 @@ public class QuestionController {
     }
 
     @FXML
-    private void playNarrator() {
-        Narrator.playSound("Hola Mundo");
-    }
-
-    @FXML
     private void handlePaneClick1(MouseEvent event) {
         StackPane clickedPane = (StackPane) event.getSource();
         if (selected1 != null) {
@@ -254,6 +309,9 @@ public class QuestionController {
         }
         selectCard(clickedPane);
         selected1 = clickedPane;
+        if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+          Narrator.playSound(((Text) selected1.getChildren().get(1)).getText(),false);
+        }
     }
 
     @FXML
@@ -264,6 +322,9 @@ public class QuestionController {
         }
         selectCard(clickedPane);
         selected2 = clickedPane;
+        if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
+          Narrator.playSound(((Text) selected2.getChildren().get(1)).getText(),true);
+        }
     }
     private void correctPair(StackPane pane1, StackPane pane2) {
       Rectangle rectangle1 = (Rectangle) pane1.getChildren().get(0);
@@ -312,6 +373,48 @@ public class QuestionController {
       unselectCard(card6);
     }
 
+    public void toggleDarkMode() {
+      Scene scene = root.getScene();
+      if (scene == null) {
+          System.err.println("Scene is not initialized yet.");
+          return;
+      }
+      String darkModeCss = getClass().getResource("/library/darkstyles.css").toExternalForm();
+      if (darkModeCss == null) {
+          System.err.println("dark-mode.css not found.");
+          return;
+      }
+      if (isDarkMode) {
+          scene.getStylesheets().remove(darkModeCss);
+          questionCorrectAnswerBox.getStyleClass().remove("text-area");
+      } else {
+          scene.getStylesheets().add(darkModeCss);
+          questionCorrectAnswerBox.setStyle("  -fx-control-inner-background: #36454F;" + 
+                        "  -fx-text-fill: white;" + 
+                        "  -fx-font-size: 16px; ");
+          flashcardLabel.setStyle("-fx-text-fill: " + toHexString(Color.web("#36454F")) + ";"
+          + "-fx-background-color: #ADD8E6" + ";");
+          interactButton.setStyle("-fx-text-fill: #36454F;");
+          questionPrompt.setStyle("  -fx-control-inner-background: #36454F;" + 
+                        "  -fx-text-fill: white;" + 
+                        "  -fx-font-size: 22px; ");
+          cardText1.setStyle("-fx-fill: #36454F;");
+          cardText2.setStyle("-fx-fill: #36454F;");
+          cardText3.setStyle("-fx-fill: #36454F;");
+          cardText4.setStyle("-fx-fill: #36454F;");
+          cardText5.setStyle("-fx-fill: #36454F;");
+          cardText6.setStyle("-fx-fill: #36454F;");
+      }
+      isDarkMode = !isDarkMode;
+  }
+
+    private String toHexString(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
+    }
+
       @FXML
     public void switchToBoardGame() {
         try {
@@ -326,5 +429,4 @@ public class QuestionController {
             e.printStackTrace();
         }
     }
-
 }

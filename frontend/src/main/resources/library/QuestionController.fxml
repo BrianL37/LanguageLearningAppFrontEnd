@@ -18,11 +18,11 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuestionController">
+<VBox fx:id="root" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuestionController">
     <Label fx:id="questionTypeLabel" text="QuestionType" />
 
 <StackPane fx:id="flashcardPane"  
-            style="-fx-background-color: lightblue;"
+            style="-fx-background-color: #8CE1F5;"
             prefWidth="500" prefHeight="200" 
             maxHeight="200" maxWidth="500" 
             minHeight="200" minWidth="500"
@@ -38,7 +38,7 @@
               wrapText="true" 
               prefWidth="500" 
               prefHeight="100" 
-              styleClass="filled-text-area" />
+              styleClass="question-prompt" />
         <HBox spacing="10.0" xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
     <children>
        <VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
@@ -81,7 +81,7 @@
 </HBox>
 </StackPane>
     
-    <TextArea fx:id="questionCorrectAnswerBox" editable="false" maxHeight="50" maxWidth="500" minHeight="50" minWidth="500" prefHeight="50" prefWidth="500" styleClass="filled-text-area" text="Correct answer goes here" visible="false" wrapText="true" />
+    <TextArea fx:id="questionCorrectAnswerBox" editable="false" maxHeight="70" maxWidth="500" minHeight="70" minWidth="500" prefHeight="70" prefWidth="500" styleClass="filled-text-area" text="Correct answer goes here" visible="false" wrapText="true" />
     
 <VBox fx:id="multipleChoiceContainer" alignment="CENTER" spacing="10" visible="false">
     <RadioButton fx:id="option1" text="1" />
@@ -90,11 +90,8 @@
     <RadioButton fx:id="option4" text="4" />
 </VBox>
 
-    <VBox fx:id="matchingContainer" visible="false">
-        <!-- Matching content goes here -->
-    </VBox>
 
-        <TextField fx:id="fillBlankUserInput" maxHeight="25" maxWidth="500" minHeight="25" minWidth="500" prefHeight="25" prefWidth="500" promptText="Your answer here..." visible="false" />
+        <TextField fx:id="fillBlankUserInput" maxHeight="35" maxWidth="500" minHeight="35" minWidth="500" prefHeight="35" prefWidth="500" promptText="Your answer here..." visible="false" />
 
 <GridPane alignment="CENTER" hgap="10" vgap="10">
     <Button fx:id="interactButton" onAction="#handleClick" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="0" />
