@@ -3,7 +3,15 @@
   -fx-text-fill: #8CE1F5;
   -fx-background-color: #36454F;
 }
+.list-cell:filled:selected {
+  -fx-background-color: white;
+  -fx-text-fill: black;
+}
 
+.list-cell {
+  -fx-background-color: #36454F;
+  -fx-text-fill: white; 
+}
 .root {
   -fx-background-color: #36454F;
   -fx-text-fill: #ffffff; 

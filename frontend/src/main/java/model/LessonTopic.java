@@ -42,7 +42,7 @@ public static LessonTopic fromString(String text) {
       return FAMILY;
     else if(text.equalsIgnoreCase("weather"))
       return WEATHER;
-    else if(text.equalsIgnoreCase("PETS"))
+    else if(text.equalsIgnoreCase("pets"))
       return PETS;
     else 
       return FOOD;

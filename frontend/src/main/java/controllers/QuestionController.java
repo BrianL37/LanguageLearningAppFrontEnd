@@ -47,15 +47,10 @@ public class QuestionController {
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
-  facade.login("JimSmith01", "SmithRocks");
-  facade.continueLanguage(ForeignLanguage.SPANISH);
-  facade.startLesson(LessonTopic.PETS);
-  facade.getUser().changeSetting(2, 1);
-  facade.getUser().changeSetting(1, 0);
+  questions = facade.getLesson().getQuestions();
   if(facade.getUser().getSettings().getLightMode() == 0) {
     Platform.runLater(() -> toggleDarkMode());
   }
-  questions = facade.getLesson().getQuestions();
   questionNumber = 0;
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
@@ -423,7 +418,7 @@ public class QuestionController {
             Parent root = loader.load();
             // Get the current stage
             Stage stage = (Stage) fillBlankUserInput.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 800, 800));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
