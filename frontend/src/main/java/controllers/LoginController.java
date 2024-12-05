@@ -6,6 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import model.User;
 import model.UserList;
@@ -39,7 +40,7 @@ public class LoginController {
 
         if (user != null) {
             showAlert("Success", "Login successful! Welcome, " + user.getFirstName());
-            redirectToHome(user); // Redirect to the homepage with the logged-in user
+            redirectToHome(); // Redirect to the homepage with the logged-in user
         } else {
             showAlert("Error", "Invalid username or password!");
         }
@@ -50,36 +51,36 @@ public class LoginController {
      *
      * @param user The logged-in user object.
      */
-    private void redirectToHome(User user) {
+    @FXML
+    public void redirectToHome() {
         try {
-            Stage stage = (Stage) usernameField.getScene().getWindow();
+            // Load the login.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
-            Scene homeScene = new Scene(loader.load());
-
-            // Pass the user object to HomepageController
-            HomepageController controller = loader.getController();
-            controller.initializeUser(user);
-
-            stage.setScene(homeScene);
-        } catch (IOException e) {
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Error loading Homepage.fxml. Please try again.");
         }
     }
 
     /**
      * Switches the view to the SignUp screen.
      */
-    @FXML
+      @FXML
     public void switchToSignup() {
         try {
-            Stage stage = (Stage) usernameField.getScene().getWindow();
+            // Load the login.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/SignUp.fxml"));
-            Scene signupScene = new Scene(loader.load());
-            stage.setScene(signupScene);
-        } catch (IOException e) {
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to load SignUp.fxml. Please try again.");
         }
     }
 
