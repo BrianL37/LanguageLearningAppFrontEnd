@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.application.Platform;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class QuestionController {
@@ -44,6 +45,7 @@ public class QuestionController {
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
     @FXML private ArrayList<Object> questions;
+  
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
@@ -75,13 +77,15 @@ public class QuestionController {
    fillBlankUserInput.setVisible(false);
    currentQuestion = question;
    String questionType = DataLoader.getQuestionTypeString(question);
-    questionTypeLabel.setText(questionType);
+   questionTypeLabel.setText(questionType);
+   AtomicBoolean clicked = new AtomicBoolean(false);
         switch (questionType) {
             case "Flashcard":
                Flashcard card = (Flashcard) currentQuestion;
                 currentQuestionId = card.getId();
                flashcardPane.setOnMouseClicked(event -> {
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
+                  clicked.set(true);
                   flashcardLabel.setText(card.getCurrentWord().getEnglish());
                   if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
                     Narrator.playSound(card.getCurrentWord().getEnglish(),true);
@@ -92,8 +96,10 @@ public class QuestionController {
                     Narrator.playSound(card.getCurrentWord().getForeign(),false);
                   }
               }
-              facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
               });
+              if(clicked.get()) {
+                facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
+              }
               flashcardPane.setStyle("-fx-background-color: lightblue;");
               flashcardPane.setVisible(true);
               questionPrompt.setVisible(false);
