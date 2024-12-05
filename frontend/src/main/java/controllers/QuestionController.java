@@ -45,7 +45,8 @@ public class QuestionController {
     @FXML private StackPane card1, card2, card3, card4, card5, card6, selected1, selected2;
     @FXML private Text cardText1, cardText2, cardText3, cardText4, cardText5, cardText6;
     @FXML private ArrayList<Object> questions;
-  
+    @FXML private Lesson lesson;
+    @FXML private boolean clicked;
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
@@ -53,6 +54,8 @@ public class QuestionController {
   if(facade.getUser().getSettings().getLightMode() == 0) {
     Platform.runLater(() -> toggleDarkMode());
   }
+  clicked = false;
+  lesson = facade.getLesson();
   questionNumber = 0;
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
@@ -78,14 +81,13 @@ public class QuestionController {
    currentQuestion = question;
    String questionType = DataLoader.getQuestionTypeString(question);
    questionTypeLabel.setText(questionType);
-   AtomicBoolean clicked = new AtomicBoolean(false);
         switch (questionType) {
             case "Flashcard":
                Flashcard card = (Flashcard) currentQuestion;
-                currentQuestionId = card.getId();
+               currentQuestionId = card.getId();
                flashcardPane.setOnMouseClicked(event -> {
+              clicked = true;
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
-                  clicked.set(true);
                   flashcardLabel.setText(card.getCurrentWord().getEnglish());
                   if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Flashcard) {
                     Narrator.playSound(card.getCurrentWord().getEnglish(),true);
@@ -97,7 +99,7 @@ public class QuestionController {
                   }
               }
               });
-              if(clicked.get()) {
+              if(clicked) {
                 facade.getUser().correct(facade.getLesson().getTopic(), card, currentQuestionId);
               }
               flashcardPane.setStyle("-fx-background-color: lightblue;");
@@ -171,7 +173,7 @@ public class QuestionController {
               currentQuestionId = fillBlank.getId();
               questionPrompt.setText(fillBlank.getContent().get(0).getEnglish());
               fillBlankUserInput.setVisible(true);
-              interactButton.setText("Check Answer");
+              interactButton.setText("Check Blank");
               if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
                 Narrator.playSound("Fill in the Blank",true);
                 Narrator.playSound(questionPrompt.getText(),true);
@@ -193,8 +195,9 @@ public class QuestionController {
         case "Continue to Board":
           switchToBoardGame();
           return;
-        case "Advance":       
-        if(questionNumber == 9) {
+        case "Advance":
+        if(questionNumber >= 9) {
+          questionCorrectAnswerBox.setVisible(true);
           questionCorrectAnswerBox.setText("You scored " + facade.getUser().getLessonProgress(facade.getLesson().getTopic()) + "/10");
           if(facade.getUser().getLessonProgress(facade.getLesson().getTopic()) > 8){
             if(facade.getUser().getSettings().getTextToSpeech() == 1) {
@@ -213,29 +216,20 @@ public class QuestionController {
         } else {
           setQuestion(questions.get(++questionNumber));
         }
-          questionCorrectAnswerBox.setVisible(false);
           return;
-        default:
-          break;
-      }
-      questionCorrectAnswerBox.setVisible(true);
-      String questionType = DataLoader.getQuestionTypeString(currentQuestion);
-      switch (questionType) {
-        case "Flashcard":
-        break;
-        case "Multiple Choice":
+        case "Check Answer":
         Toggle selectedToggle = buttonGroup.getSelectedToggle();
         String selectedText = "";
         if (selectedToggle != null) {
             RadioButton selectedRadioButton = (RadioButton) selectedToggle;
             selectedText = selectedRadioButton.getText();
         }
-        if(selectedText.equals(facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign())) {
+        if(selectedText.equals(((MultipleChoice)currentQuestion).getAnswer().get(0).getForeign())) {
           if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof MultipleChoice) {
             Narrator.playSound("Correct!",true);
           }
           questionCorrectAnswerBox.setText("Correct!");
-          facade.getUser().correct(facade.getLesson().getTopic(), currentQuestion, currentQuestionId);
+          facade.getUser().correct(facade.getLesson().getTopic(), (MultipleChoice)currentQuestion, currentQuestionId);
         } else {
           if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof MultipleChoice) {
             Narrator.playSound("Incorrect, the correct answer was ",true);
@@ -243,11 +237,10 @@ public class QuestionController {
           }
           questionCorrectAnswerBox.setText("Incorrect, the correct answer was \"" +
           facade.getLesson().getMultipleChoice(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
-        }
-
+        }      
         interactButton.setText("Advance");
-        break;
-        case "Matching":
+        return;
+        case "Check Pair":
         if (selected1 != null && selected2 != null) {
           Boolean isCorrect = false;
           String card1Text = ((Text) selected1.getChildren().get(1)).getText();
@@ -271,7 +264,7 @@ public class QuestionController {
           }
         }
         if(card1.isDisabled() && card2.isDisabled() && card3.isDisabled()) {
-          facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion, currentQuestionId);
+          facade.getUser().correct(facade.getLesson().getTopic(), (Matching)currentQuestion, 0);
           if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof Matching) {
             Narrator.playSound("All pairs are correct!",true);
           }
@@ -280,7 +273,7 @@ public class QuestionController {
           break;
         }
         break;
-        case "Fill in the Blank":
+        case "Check Blank":
         String answer = fillBlankUserInput.getText();
         if (answer.equals(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign())) {
           if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
@@ -297,9 +290,10 @@ public class QuestionController {
           facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign() + "\"");
         }
         interactButton.setText("Advance");
-        break;
+         return;
+        default:
+          break;
       }
-
     }
 
     @FXML

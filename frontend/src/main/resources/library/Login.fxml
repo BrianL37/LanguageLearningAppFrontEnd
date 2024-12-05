@@ -7,14 +7,28 @@
 <?import javafx.geometry.Insets?>
 
 <VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.LoginController">
-    <children>
-        <Label text="Login" />
-        <TextField fx:id="usernameField" promptText="Username" />
-        <PasswordField fx:id="passwordField" promptText="Password" />
+    <!-- Title -->
+    <Label text="Login" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4A90E2;" />
+
+    <!-- Username -->
+    <VBox alignment="CENTER_LEFT" spacing="5.0">
+        <Label text="Username:" />
+        <TextField fx:id="usernameField" promptText="Enter your username" />
+    </VBox>
+
+    <!-- Password -->
+    <VBox alignment="CENTER_LEFT" spacing="5.0">
+        <Label text="Password:" />
+        <PasswordField fx:id="passwordField" promptText="Enter your password" />
+    </VBox>
+
+    <!-- Buttons -->
+    <VBox spacing="10.0">
         <Button text="Login" onAction="#handleLogin" />
         <Button text="Sign Up" onAction="#switchToSignup" />
-    </children>
+    </VBox>
+
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
+        <Insets top="20.0" right="40.0" bottom="20.0" left="40.0" />
     </padding>
 </VBox>
