@@ -21,16 +21,16 @@ import software.amazon.awssdk.services.polly.model.SynthesizeSpeechResponse;
 import software.amazon.awssdk.services.polly.model.Voice;
 
 public class Narrator {
-    private Narrator(){};
+    private Narrator(){}
 
-    public static void playSound(String text){
+    public static void playSound(String text, boolean isEnglish){
         PollyClient polly = PollyClient.builder().region(Region.US_EAST_1).build();
 
-        talkPolly(polly, text);
+        talkPolly(polly, text, isEnglish);
         polly.close();
     }
 
-    private static void talkPolly(PollyClient polly, String text) {
+    private static void talkPolly(PollyClient polly, String text, boolean isEnglish) {
         try {
             DescribeVoicesRequest describeVoiceRequest = DescribeVoicesRequest.builder()
                     .engine("standard")
@@ -38,21 +38,25 @@ public class Narrator {
 
             DescribeVoicesResponse describeVoicesResult = polly.describeVoices(describeVoiceRequest);
             Voice voice = describeVoicesResult.voices().stream()
-                    .filter(v -> v.name().equals("Miguel"))
+                    .filter(v -> v.name().equals("Joanna"))
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Voice not found"));
 
+            // Use SSML to specify the language based on the boolean parameter
+            String languageCode = isEnglish ? "en-US" : "es-ES";
+            String ssmlText = "<speak><lang xml:lang='" + languageCode + "'>" + text + "</lang></speak>";
 
-            InputStream stream = synthesize(polly, text, voice, OutputFormat.MP3);
+            InputStream stream = synthesize(polly, ssmlText, voice, OutputFormat.MP3);
             AdvancedPlayer player = new AdvancedPlayer(stream,
                     javazoom.jl.player.FactoryRegistry.systemRegistry().createAudioDevice());
-                    
+
             player.setPlayBackListener(new PlaybackListener(){});
 
             player.play();
 
         } catch (PollyException | JavaLayerException | IOException e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();  // Debugging output
             System.exit(1);
         }
     }
@@ -60,6 +64,7 @@ public class Narrator {
     public static InputStream synthesize(PollyClient polly, String text, Voice voice, OutputFormat format)
             throws IOException {
         SynthesizeSpeechRequest synthReq = SynthesizeSpeechRequest.builder()
+                .textType("ssml")  // Ensure SSML is enabled
                 .text(text)
                 .voiceId(voice.id())
                 .outputFormat(format)
@@ -69,4 +74,3 @@ public class Narrator {
         return synthRes;
     }
 }
-
