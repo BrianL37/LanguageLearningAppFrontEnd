@@ -246,7 +246,7 @@ public ArrayList<User> getFriendList() {
    * @return Lesson for the user to complete
    */
   public Lesson startLesson(LessonTopic topic) {
-    this.currentLesson = this.currentLanguage.getLesson(topic);
+    this.currentLesson = new Lesson(user.getDifficulty(), topic);
     return this.currentLesson;
   }
 

@@ -44,9 +44,9 @@ public class Lesson {
   private void createFlashCard() {
     int i = 0;
     for(Word word : words) {
-      ++i;
       Flashcard card = new Flashcard(word, i);
       this.questions.add(card);
+      ++i;
     }
   }
 

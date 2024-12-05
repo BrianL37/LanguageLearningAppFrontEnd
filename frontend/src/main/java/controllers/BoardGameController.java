@@ -27,13 +27,12 @@ public class BoardGameController {
     @FXML
     private void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
         // Load the image directly in the controller
         Image playerImage = new Image(getClass().getResource("/images/player.png").toExternalForm());
         playerIcon.setImage(playerImage);
         // Initialize the player position
         movePlayer(currentRow, currentColumn);
-        for(int i = 0; i < facade.getUser().getLanguageProgress() - 2; i++) {
+        for(int i = 0; i < facade.getUser().getLanguageProgress() - 1; i++) {
             moveToNextSquare();
         }
     }

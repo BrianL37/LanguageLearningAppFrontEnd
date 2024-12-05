@@ -50,7 +50,7 @@ public class QuestionController {
 
   public void initialize() {
   facade = LanguageLearningSystemFacade.getInstance();
-  questions = facade.getLesson().getQuestions();
+  questions = facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY).getLesson(facade.getLesson().getTopic()).getQuestions();
   if(facade.getUser().getSettings().getLightMode() == 0) {
     Platform.runLater(() -> toggleDarkMode());
   }
@@ -85,6 +85,7 @@ public class QuestionController {
             case "Flashcard":
                Flashcard card = (Flashcard) currentQuestion;
                currentQuestionId = card.getId();
+               System.out.println(currentQuestionId);
                flashcardPane.setOnMouseClicked(event -> {
               clicked = true;
               if (flashcardLabel.getText().equals(card.getCurrentWord().getForeign())) {
@@ -186,6 +187,7 @@ public class QuestionController {
 
     @FXML
     private void handleClick() {
+      questions = facade.startLesson(facade.getLesson().getTopic()).getQuestions();
       switch(interactButton.getText()) {
         case "Try Again":
           questionNumber = 0;
@@ -196,6 +198,7 @@ public class QuestionController {
           switchToBoardGame();
           return;
         case "Advance":
+        //System.out.println(facade.getUser().getLessonProgress(facade.getLesson().getTopic()));
         if(questionNumber >= 9) {
           questionCorrectAnswerBox.setVisible(true);
           questionCorrectAnswerBox.setText("You scored " + facade.getUser().getLessonProgress(facade.getLesson().getTopic()) + "/10");
@@ -218,6 +221,7 @@ public class QuestionController {
         }
           return;
         case "Check Answer":
+        questionCorrectAnswerBox.setVisible(true);
         Toggle selectedToggle = buttonGroup.getSelectedToggle();
         String selectedText = "";
         if (selectedToggle != null) {
@@ -241,6 +245,7 @@ public class QuestionController {
         interactButton.setText("Advance");
         return;
         case "Check Pair":
+        questionCorrectAnswerBox.setVisible(true);
         if (selected1 != null && selected2 != null) {
           Boolean isCorrect = false;
           String card1Text = ((Text) selected1.getChildren().get(1)).getText();
@@ -274,6 +279,7 @@ public class QuestionController {
         }
         break;
         case "Check Blank":
+        questionCorrectAnswerBox.setVisible(true);
         String answer = fillBlankUserInput.getText();
         if (answer.equals(facade.getLesson().getFillBlank(currentQuestionId).getAnswer().get(0).getForeign())) {
           if(facade.getUser().getSettings().getTextToSpeech() == 1 && currentQuestion instanceof FillBlank) {
@@ -334,6 +340,9 @@ public class QuestionController {
         Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
         rectangle.setStroke(Color.BLACK); 
         rectangle.setStrokeWidth(3);
+        if(facade.getUser().getSettings().getLightMode() == 1) {
+          rectangle.setStroke(Color.WHITE);
+        }
     }
     private void unselectCard(StackPane pane) {
       Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
