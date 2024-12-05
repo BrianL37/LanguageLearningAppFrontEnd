@@ -1,1 +1,17 @@
-[{"password":"password1","uuid":"df516fcc-f4e0-45a2-97b6-ef86360a0e65","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"brian","email":"brianlee@email.com","friends":[],"last-name":"lee","username":"blee"},{"password":"12345678","uuid":"5e0259af-4a6c-41a9-817d-3eb46a49ba49","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"Brian","email":"idk@email.sc.edu","friends":[],"last-name":"Lee","username":"Brian123"},{"password":"SmithRocks","uuid":"c49ef4b9-b608-48d0-9bfe-408a1fb7be38","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"Jim","email":"JimSmith2000@email.com","friends":[],"last-name":"Smith","username":"JimSmith01"},{"password":"smoke101","uuid":"9a71a659-e6d5-4a9b-bbbe-34fc91dab915","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"dj","email":"d@gmail.com","friends":[],"last-name":"c","username":"dj"},{"password":"passwrod1","uuid":"88e2ab12-a233-47ea-9862-06bdac1b5711","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"Brian","email":"idk123@email.com","friends":[],"last-name":"Lee","username":"Brian1"},{"password":"password1","uuid":"5ddbd763-3e1d-47f3-9310-b20b010a6fdb","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"Brian","email":"idk123@email.com","friends":[],"last-name":"Lee","username":"blee1124"},{"password":"password","uuid":"936b35c1-973b-4b34-a9a7-bfc46a463cac","user-settings":{"text-to-speech":0,"light-mode":1,"font-size":10,"notifications":0},"first-name":"brian","email":"brianlee@email.com","friends":[],"last-name":"lee","username":"blee"}]
+[
+  {
+    "password": "SmithRocks",
+    "uuid": "c49ef4b9-b608-48d0-9bfe-408a1fb7be38",
+    "user-settings": {
+      "text-to-speech": 0,
+      "light-mode": 1,
+      "font-size": 10,
+      "notifications": 0
+    },
+    "first-name": "Jim",
+    "email": "JimSmith2000@email.com",
+    "friends": [],
+    "last-name": "Smith",
+    "username": "JimSmith01"
+  }
+]

@@ -2,14 +2,21 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import model.LanguageLearningSystemFacade;
 import model.User;
 
 public class HomepageController {
+    @FXML private BorderPane root;
 
-    private User currentUser;
-
+    private LanguageLearningSystemFacade facade;
     @FXML
     private Label welcomeLabel;
 
@@ -17,20 +24,20 @@ public class HomepageController {
      * Initializes the homepage with the logged-in user's information.
      * @param user The logged-in user.
      */
-    public void initializeUser(User user) {
-        this.currentUser = user;
-
+    public void initialize() {
+        facade = LanguageLearningSystemFacade.getInstance();
+        facade.login("JimSmith01", "SmithRocks");
         // Example: Use user data to personalize the homepage
-        String welcomeMessage = "Welcome, " + user.getFirstName() + "!";
-        if (welcomeLabel != null) {
-            welcomeLabel.setText(welcomeMessage);
-        }
-        System.out.println(welcomeMessage);
+        String welcomeMessage = "Welcome, " + facade.getUser().getFirstName() + "!";
+        welcomeLabel = new Label();
+        welcomeLabel.setText(welcomeMessage);
+ 
+
     }
 
     @FXML
     private void openSettings(ActionEvent event) {
-        showAlert("Navigating to Settings...");
+        changePage("/library/Settings.fxml");
         // Logic to open Settings screen
     }
 
@@ -42,25 +49,25 @@ public class HomepageController {
 
     @FXML
     private void startLesson(ActionEvent event) {
-        showAlert("Starting Lessons...");
+        changePage("/library/ChooseLesson.fxml");
         // Logic to start a lesson
     }
 
     @FXML
     private void selectLanguage(ActionEvent event) {
-        showAlert("Opening Language Selection...");
+        changePage("/library/ChooseLanguage.fxml");
         // Logic for language selection
     }
 
     @FXML
     private void viewUserProfile(ActionEvent event) {
-        showAlert("Opening User Profile...");
+        changePage("/library/UserProfile.fxml");
         // Logic to view the user's profile
     }
 
     @FXML
     private void selectDifficulty(ActionEvent event) {
-        showAlert("Opening Difficulty Selection...");
+        changePage("/library/ChooseDifficulty.fxml");
         // Logic for selecting difficulty
     }
 
@@ -68,5 +75,20 @@ public class HomepageController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+          @FXML
+    public void changePage(String file) {
+        try {
+            // Load the login.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(file));
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) this.root.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
