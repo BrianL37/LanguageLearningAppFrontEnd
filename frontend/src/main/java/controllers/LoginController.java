@@ -9,17 +9,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import model.User;
+import model.Language;
 import model.LanguageLearningSystemFacade;
 
 import java.io.IOException;
 
 public class LoginController {
-
+    @FXML private LanguageLearningSystemFacade facade;
     @FXML
     private TextField usernameField;
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML private void initialize() {
+        facade = LanguageLearningSystemFacade.getInstance();
+    }
 
     /**
      * Handles the login process by validating the username and password.

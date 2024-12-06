@@ -3,16 +3,19 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.LanguageLearningSystemFacade;
-import model.User;
+import javafx.scene.control.Label;
+import model.*;
+import narrator.*;
 
 public class UserProfileController {
-
+    @FXML private VBox root, informationSection;
+    @FXML private Label firstNameLabel, lastNameLabel, usernameLabel, passwordLabel, emailLabel;
     @FXML
     private TextField firstNameField;
 
@@ -27,7 +30,7 @@ public class UserProfileController {
 
     @FXML
     private TextField emailField;
-
+    private boolean narrator;
     private LanguageLearningSystemFacade facade;
 
     /**
@@ -37,7 +40,9 @@ public class UserProfileController {
     public void initialize() {
         // Get the instance of the facade
         facade = LanguageLearningSystemFacade.getInstance();
-
+        facade.login("JimSmith01", "SmithRocks");
+        facade.getUser().getSettings().setTextToSpeech(1);
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         // Load current user data into fields
         User currentUser = facade.getUser();
         if (currentUser != null) {
@@ -47,6 +52,18 @@ public class UserProfileController {
             passwordField.setText(currentUser.getPassword());
             emailField.setText(currentUser.getEmail());
         }
+
+        if(facade.getUser().getSettings().getLightMode() == 0) {
+            this.root.setStyle("-fx-background-color: #36454F; -fx-padding: 40;");
+            this.informationSection.setStyle("-fx-background-color: #36454F; -fx-border-color: #8CE1F5;" +
+                 "-fx-border-width: 2; -fx-border-radius: 10; -fx-padding: 20;");
+            this.firstNameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #8CE1F5;");
+            this.lastNameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #8CE1F5;");
+            this.usernameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #8CE1F5;");
+            this.passwordLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #8CE1F5;");
+            this.emailLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #8CE1F5;");
+        }
+
     }
 
     /**
@@ -79,8 +96,10 @@ public class UserProfileController {
             facade.editUser(2, username); // Assuming 2 corresponds to username
             facade.editUser(3, password); // Assuming 3 corresponds to password
             facade.editUser(4, email);    // Assuming 4 corresponds to email
-
             showAlert(AlertType.INFORMATION, "Success", "Profile updated successfully!");
+            if(narrator) {
+                Narrator.playSound("Profile updated successfully!", true);
+            }   
         } catch (Exception e) {
             showAlert(AlertType.ERROR, "Error", "Failed to update profile. Please try again.");
         }

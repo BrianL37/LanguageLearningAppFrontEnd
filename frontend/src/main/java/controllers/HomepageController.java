@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
+import narrator.Narrator;
 import javafx.scene.paint.Color;
 
 
@@ -23,6 +24,7 @@ public class HomepageController {
     private LanguageLearningSystemFacade facade;
     @FXML
     private Label welcomeLabel;
+    private boolean narrator;
 
     /**
      * Initializes the homepage with the logged-in user's information.
@@ -31,14 +33,10 @@ public class HomepageController {
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
         facade.login("JimSmith01", "SmithRocks");
-        facade.getUser().getSettings().setLightMode(0);
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         // Example: Use user data to personalize the homepage
         String welcomeMessage = "Welcome, " + facade.getUser().getFirstName() + "!";
-        welcomeLabel = new Label();
-        welcomeLabel.setText(welcomeMessage);
-        PauseTransition delay = new PauseTransition(Duration.seconds(0.3)); 
-        delay.setOnFinished(event -> showAlert(welcomeMessage));
-        delay.play();
+
         if(facade.getUser().getSettings().getLightMode() == 0) {
             root.setStyle("-fx-background-color: #36454F;");
             homepageText.setFill(Color.WHITE);
@@ -49,12 +47,18 @@ public class HomepageController {
 
     @FXML
     private void openSettings(ActionEvent event) {
+        if(narrator) {
+        Narrator.playSound("Opening Settings", true);
+        }
         changePage("/library/Settings.fxml");
         // Logic to open Settings screen
     }
 
     @FXML
     private void logout(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Logging Out", true);
+            }
         showAlert("Logging out...");
         // Logic to navigate to Login screen
     }
@@ -62,21 +66,33 @@ public class HomepageController {
     @FXML
     private void startLesson(ActionEvent event) {
         if(facade.getLanguage() == null) {
+            if(narrator) {
+                Narrator.playSound("Please select a language and difficulty level first", true);
+                }
             showAlert("Please select a language and difficulty level first.");
             return;
         }
+        if(narrator) {
+            Narrator.playSound("Opening Choose Lesson", true);
+            }
         changePage("/library/ChooseLesson.fxml");
         // Logic to start a lesson
     }
 
     @FXML
     private void selectLanguage(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Opening Choose Language", true);
+            }
         changePage("/library/ChooseLanguage.fxml");
         // Logic for language selection
     }
 
     @FXML
     private void viewUserProfile(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Opening User Profile", true);
+            }
         changePage("/library/UserProfile.fxml");
         // Logic to view the user's profile
     }
@@ -84,6 +100,9 @@ public class HomepageController {
     @FXML
     private void selectDifficulty(ActionEvent event) {
         if(facade.getLanguage() == null) {
+            if(narrator) {
+                Narrator.playSound("Please select a language first", true);
+                }
             showAlert("Please select a language first.");
             return;
         }

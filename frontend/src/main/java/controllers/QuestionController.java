@@ -56,7 +56,7 @@ public class QuestionController {
   }
   clicked = false;
   lesson = facade.getLesson();
-  narrator = facade.getUser().getSettings().getNarrator() == 1;
+  narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
   questionNumber = 0;
   setQuestion(questions.get(0));
   buttonGroup = new ToggleGroup();
