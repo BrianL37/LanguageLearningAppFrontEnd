@@ -155,7 +155,7 @@ public class BoardGameController {
         }
     }
 
-    private void updateBoardColors(boolean darkModeBoard) { 
+    public void updateBoardColors(boolean darkModeBoard) { 
         root.setStyle("-fx-background-color: #36454F;");
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) { 
             final int currentRow = row;
