@@ -40,7 +40,6 @@ public class SettingsController {
     @FXML
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
         narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         
         notificationsToggle.setSelected(facade.getUser().getSettings().getNotifications() == 1); 

@@ -37,7 +37,6 @@ public class HomepageController {
      */
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
         narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         // Example: Use user data to personalize the homepage
         String welcomeMessage = "Welcome, " + facade.getUser().getFirstName() + "!";
