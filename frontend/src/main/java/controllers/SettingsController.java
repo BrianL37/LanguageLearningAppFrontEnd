@@ -109,7 +109,7 @@ public class SettingsController {
             notificationsToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
             lightModeToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
             textToSpeechToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
-            notificationLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F" +
+            notificationLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;" +
             "-fx-border-radius: 10; -fx-padding: 15;");
              ttsLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;" +
             "-fx-border-radius: 10; -fx-padding: 15;");
