@@ -29,7 +29,7 @@
     </HBox>
 
     <!-- Back Button -->
-    <Button text="Back to Home" onAction="#goToHome" styleClass="back-button" />
+    <Button fx:id="backButton" text="Back to Home" onAction="#goToHome" styleClass="back-button" />
 
     <padding>
         <Insets top="20.0" right="40.0" bottom="20.0" left="40.0" />
