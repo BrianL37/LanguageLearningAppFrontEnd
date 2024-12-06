@@ -66,7 +66,6 @@ public class SettingsController {
     public void toggleLightMode(boolean isOn) {
     if (isOn) {
         facade.getUser().getSettings().setLightMode(1); // Set light mode on
-
         // Change background color of the settings page to light mode
         root.setStyle("-fx-background-color: #FFFFFF;");
 
@@ -79,10 +78,8 @@ public class SettingsController {
 
     } else {
         facade.getUser().getSettings().setLightMode(0); // Set dark mode on
-
         // Change background color of the settings page to dark mode
         root.setStyle("-fx-background-color: #36454F;");
-
         // Set styles for other UI elements to match dark mode
         backButton.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
         notificationsToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
@@ -98,8 +95,9 @@ public class SettingsController {
         if (textToSpeechToggle.isSelected()) {
             System.out.println("Text to Speech: On");
             Narrator.playSound("Text to Speech is enabled.", true); // Provide immediate feedback
+            facade.getUser().getSettings().setTextToSpeech(1); // Set text to speech on
         } else {
-            System.out.println("Text to Speech: Off");
+            facade.getUser().getSettings().setTextToSpeech(0); // Set text to speech off
         }
     }
 
