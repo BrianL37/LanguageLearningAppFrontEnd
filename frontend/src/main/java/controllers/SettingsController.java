@@ -44,8 +44,6 @@ public class SettingsController {
         lightModeToggle.setSelected(facade.getUser().getSettings().getLightMode() == 1);     
         textToSpeechToggle.setSelected(facade.getUser().getSettings().getTextToSpeech() == 1);  
 
-        // Apply initial style based on light mode state
-        toggleLightMode();
 
         // Add listener to lightModeToggle to call the method when the state changes
         lightModeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {

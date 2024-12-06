@@ -6,7 +6,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SettingsController">
+<VBox fx:id="root" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SettingsController">
     <!-- Screen Title -->
     <Label text="Settings" styleClass="settings-title" />
 
