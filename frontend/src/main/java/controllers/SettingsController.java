@@ -59,6 +59,8 @@ public class SettingsController {
     public void toggleLightMode(boolean isOn) {
         if (isOn) {
             facade.getUser().getSettings().setLightMode(1); // Set light mode on
+            //For Michael: This is where you would change the background color of the settings page
+            //EX: root.setStyle("-fx-background-color: #36454F;");
         } else {
             facade.getUser().getSettings().setLightMode(0); // Set dark mode on
         }
