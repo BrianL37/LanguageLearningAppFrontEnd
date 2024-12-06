@@ -34,7 +34,7 @@ public class SignUpController {
 
     private LanguageLearningSystemFacade facade;
 
-
+    @FXML
     private void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
     }
@@ -65,7 +65,6 @@ public class SignUpController {
         // Add user to UserList
         UUID userID = UUID.randomUUID();
         facade.signUp(firstName, lastName, username, password, email, userID);
-
         showAlert("Success", "Account created successfully!");
         switchToLogin();
     }
