@@ -1,7 +1,11 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.LanguageLearningSystemFacade;
@@ -80,6 +84,7 @@ public class UserProfileController {
         } catch (Exception e) {
             showAlert(AlertType.ERROR, "Error", "Failed to update profile. Please try again.");
         }
+        changePage();
     }
 
     /**
@@ -95,5 +100,19 @@ public class UserProfileController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+              @FXML
+    public void changePage() {
+        try {
+            // Load the login.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

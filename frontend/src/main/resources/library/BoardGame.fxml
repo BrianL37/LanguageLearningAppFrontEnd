@@ -6,9 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
-
-<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BoardGameController" prefHeight="800.0" prefWidth="800.0">
-    <GridPane fx:id= "gridPane" layoutX="50.0" layoutY="50.0" gridLinesVisible="true" prefHeight="500.0" prefWidth="500.0">
+<VBox fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BoardGameController" prefHeight="800.0" prefWidth="800.0">
+<children>
+<AnchorPane prefHeight="800.0" prefWidth="800.0">
+    <GridPane fx:id= "gridPane" layoutX="50.0" layoutY="50.0" gridLinesVisible="true" prefHeight="350.0" prefWidth="700.0">
         <columnConstraints>
             <ColumnConstraints percentWidth="10" />
             <ColumnConstraints percentWidth="10" />
@@ -31,7 +32,9 @@
         <children>
             <!-- Define each square as a StackPane with a background color and size -->
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0">
-            <children> <ImageView fx:id="playerIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/player.png" /> </image> </ImageView> </children> </StackPane>
+            <children> <ImageView fx:id="arrow1" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView>
+            <ImageView fx:id="playerIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/player.png" /> </image> </ImageView>
+             </children> </StackPane>
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="2" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" /> 
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="3" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
@@ -40,9 +43,11 @@
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="6" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="7" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="0" GridPane.columnIndex="8" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
-            <StackPane GridPane.rowIndex="0" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="0" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0">
+            <children> <ImageView fx:id="arrow2" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="90"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <!-- Row 1 -->
-            <StackPane GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow3" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="90"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="2" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="3" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
@@ -51,9 +56,11 @@
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="6" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="7" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="1" GridPane.columnIndex="8" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
-            <StackPane GridPane.rowIndex="1" GridPane.columnIndex="9" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="1" GridPane.columnIndex="9" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0"  >
+            <children> <ImageView fx:id="arrow4" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="180"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <!-- Continue with other StackPanes for remaining rows -->
-            <StackPane GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow5" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="2" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="3" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
@@ -62,9 +69,11 @@
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="6" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="7" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="2" GridPane.columnIndex="8" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
-            <StackPane GridPane.rowIndex="2" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="2" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow6" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="90"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <!-- Row 3 -->
-            <StackPane GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow7" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="90"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="2" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="3" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
@@ -73,9 +82,11 @@
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="6" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="7" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="3" GridPane.columnIndex="8" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
-            <StackPane GridPane.rowIndex="3" GridPane.columnIndex="9" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="3" GridPane.columnIndex="9" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow8" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="180"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <!-- Row 4 -->
-            <StackPane GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fx:id="arrow9" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/arrow.png" /> </image> </ImageView> </children> </StackPane>
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="1" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="2" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="3" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
@@ -84,9 +95,12 @@
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="6" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="7" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
             <StackPane GridPane.rowIndex="4" GridPane.columnIndex="8" style="-fx-background-color: #d9d9d9;" prefWidth="50.0" prefHeight="50.0" />
-            <StackPane GridPane.rowIndex="4" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" />
+            <StackPane GridPane.rowIndex="4" GridPane.columnIndex="9" style="-fx-background-color: #f2f2f2;" prefWidth="50.0" prefHeight="50.0" >
+            <children> <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/trophy.png" /> </image> </ImageView> </children> </StackPane>
         </children>
     </GridPane>
-    <Button layoutX="700.0" layoutY="50.0" text="Choose Next Lesson" onAction="#switchToChooseLesson" />
+    <Button layoutX="340" layoutY="600" text="Choose Next Lesson" onAction="#switchToChooseLesson" />
 </AnchorPane>
+</children>
+</VBox>
 

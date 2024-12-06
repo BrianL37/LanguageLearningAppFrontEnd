@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import model.User;
-import model.UserList;
+import model.LanguageLearningSystemFacade;
 
 import java.io.IOException;
 
@@ -34,13 +34,13 @@ public class LoginController {
             return;
         }
 
-        // Authenticate the user
-        UserList userList = UserList.getInstance(); // Loads users from JSON if not already loaded
-        User user = userList.login(username, password);
+        // Authenticate the user using the facade
+        LanguageLearningSystemFacade facade = LanguageLearningSystemFacade.getInstance();
+        User user = facade.login(username, password);
 
         if (user != null) {
             showAlert("Success", "Login successful! Welcome, " + user.getFirstName());
-            redirectToHome(); // Redirect to the homepage with the logged-in user
+            redirectToHome(); // Redirect to the homepage
         } else {
             showAlert("Error", "Invalid username or password!");
         }
@@ -48,8 +48,6 @@ public class LoginController {
 
     /**
      * Redirects the user to the home screen after a successful login.
-     *
-     * @param user The logged-in user object.
      */
     @FXML
     public void redirectToHome() {
@@ -69,7 +67,7 @@ public class LoginController {
     /**
      * Switches the view to the SignUp screen.
      */
-      @FXML
+          @FXML
     public void switchToSignup() {
         try {
             // Load the login.fxml

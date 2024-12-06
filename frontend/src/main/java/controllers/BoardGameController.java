@@ -1,28 +1,55 @@
 package controllers;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.*;
+import javafx.scene.layout.VBox;
+import java.util.List;
+import java.util.ArrayList;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class BoardGameController {
-
+    private Stage primaryStage;
     @FXML
-    private AnchorPane root;
-
+    private VBox root;
     @FXML
     private GridPane gridPane;
-
     @FXML
     private ImageView playerIcon;
-
+    @FXML
+    private ImageView arrow1;
+    @FXML
+    private ImageView arrow2;
+    @FXML
+    private ImageView arrow3;
+    @FXML
+    private ImageView arrow4;
+    @FXML
+    private ImageView arrow5;
+    @FXML
+    private ImageView arrow6;
+    @FXML
+    private ImageView arrow7;
+    @FXML
+    private ImageView arrow8;
+    @FXML
+    private ImageView arrow9;
+    private List<ImageView> arrows;
     private int currentRow = 0;
     private int currentColumn = 0;
     private boolean moveRight = true;
@@ -30,24 +57,39 @@ public class BoardGameController {
 
     @FXML
     private void initialize() {
-        root = new AnchorPane();
+        arrows = new ArrayList<>();
+        arrows.add(arrow1);
+        arrows.add(arrow2);
+        arrows.add(arrow3);
+        arrows.add(arrow4);
+        arrows.add(arrow5);
+        arrows.add(arrow6);
+        arrows.add(arrow7);
+        arrows.add(arrow8);
+        arrows.add(arrow9);
+        hideAllArrows();
+        primaryStage = new Stage();
         facade = LanguageLearningSystemFacade.getInstance();
         facade.login("JimSmith01", "SmithRocks");
         facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
-        facade.getUser().setLanguageProgress(30);
+        facade.getUser().setLanguageProgress(50);
         facade.getUser().changeSetting(1, 0);
         // Load the image directly in the controller
         Image playerImage = new Image(getClass().getResource("/images/player.png").toExternalForm());
         playerIcon.setImage(playerImage);
-        System.out.println(facade.getUser().getSettings().getLightMode());
         if(facade.getUser().getSettings().getLightMode() == 0) {
-         root.setStyle("-fx-background-color: black;");
           updateBoardColors(true);
         }
         // Initialize the player position
         movePlayer(currentRow, currentColumn);
         for(int i = 0; i < facade.getUser().getLanguageProgress() - 1; i++) {
             moveToNextSquare();
+        }
+        updateArrows();
+        if (currentRow == 4 && currentColumn == 9) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1)); // 1-second delay
+            delay.setOnFinished(event -> showInfoAlert("Congratulations! You have completed the game!"));
+            delay.play();
         }
     }
 
@@ -114,6 +156,7 @@ public class BoardGameController {
     }
 
     private void updateBoardColors(boolean darkModeBoard) { 
+        root.setStyle("-fx-background-color: #36454F;");
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) { 
             final int currentRow = row;
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) { 
@@ -123,17 +166,61 @@ public class BoardGameController {
                     if ((row + col) % 2 == 0) { 
                         //change even spaces 
                         if (darkModeBoard) { 
-                            pane.setStyle("-fx-background-color: #333333;");
-                        } else { pane.setStyle("-fx-background-color: #f2f2f2;"); }
+                            pane.setStyle("-fx-background-color: #8CE1F5;");
+                        }
                         //change odd spaces 
                      } else { 
                         if (darkModeBoard) { 
-                            pane.setStyle("-fx-background-color: #444444;"); 
-                        } else { pane.setStyle("-fx-background-color: #d9d9d9;"); 
-                    } 
+                            pane.setStyle("-fx-background-color: #5AA9E6;"); 
+                        } 
                 } 
             } 
         } 
     }
 }
+
+public void hideAllArrows() {
+    for (ImageView arrow : arrows) {
+        arrow.setVisible(false);
+    }
+}
+    // Method to show a specific arrow
+    public void showArrow(int index) {
+        if (index >= 0 && index < arrows.size()) {
+            arrows.get(index).setVisible(true);
+        }
+    }
+
+    // Method to hide a specific arrow
+    public void hideArrow(int index) {
+        if (index >= 0 && index < arrows.size()) {
+            arrows.get(index).setVisible(false);
+        }
+    }
+    public void updateArrows() {
+        for (ImageView arrow : arrows) {
+            StackPane parent = (StackPane) arrow.getParent();
+            Integer arrowRow = GridPane.getRowIndex(parent);
+            Integer arrowColumn = GridPane.getColumnIndex(parent);
+    
+    
+            // Use default values if row or column index is null
+            int row = (arrowRow != null) ? arrowRow : -1;
+            int column = (arrowColumn != null) ? arrowColumn : -1;
+    
+            if (row == currentRow && column == currentColumn) {
+                arrow.setVisible(false);
+            } else {
+                arrow.setVisible(true);
+            }
+        }
+    }
+
+        private void showInfoAlert(String message) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Game Completed");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.show();
+    }
 }
