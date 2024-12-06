@@ -39,10 +39,17 @@ public class HomepageController {
 
         if(facade.getUser().getSettings().getLightMode() == 0) {
             root.setStyle("-fx-background-color: #36454F;");
-            homepageText.setFill(Color.WHITE);
-            descriptionText.setFill(Color.WHITE);
+            homepageText.setFill(Color.web("#8CE1F5"));
+            descriptionText.setFill(Color.web("#8CE1F5"));
         }
 
+    }
+
+    private String toHexString(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
     }
 
     @FXML

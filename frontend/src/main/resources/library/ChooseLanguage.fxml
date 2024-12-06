@@ -5,36 +5,40 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="30.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ChooseLanguageController">
+<VBox fx:id="root" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ChooseLanguageController">
     <!-- Title -->
-    <Label text="Choose Your Language" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4A90E2;" />
+    <Label text="Choose Your Language" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #8CE1F5;" />
 
-    <!-- Language Buttons -->
-    <HBox alignment="CENTER" spacing="20.0">
-        <!-- German Language Button -->
-        <Button fx:id="selectGermanButton" 
-                text="German" 
-                style="-fx-background-color: #EDEDED; -fx-border-color: #CCCCCC; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8 20 8 20; -fx-text-fill: #333333;" 
-                onAction="#selectGerman" />
+<!-- Language Buttons -->
+<HBox alignment="CENTER" spacing="20.0">
+    <!-- German Language Button -->
+    <Button fx:id="selectGermanButton" 
+            text="German" 
+            style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+                   -fx-border-radius: 10; -fx-padding: 15;" 
+            onAction="#selectGerman" />
 
-        <!-- Spanish Language Button -->
-        <Button fx:id="selectSpanishButton" 
-                text="Spanish" 
-                style="-fx-background-color: #EDEDED; -fx-border-color: #CCCCCC; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8 20 8 20; -fx-text-fill: #333333;" 
-                onAction="#selectSpanish" />
+    <!-- Spanish Language Button -->
+    <Button fx:id="selectSpanishButton" 
+            text="Spanish" 
+            style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+                   -fx-border-radius: 10; -fx-padding: 15;" 
+            onAction="#selectSpanish" />
 
-        <!-- French Language Button -->
-        <Button fx:id="selectFrenchButton" 
-                text="French" 
-                style="-fx-background-color: #EDEDED; -fx-border-color: #CCCCCC; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8 20 8 20; -fx-text-fill: #333333;" 
-                onAction="#selectFrench" />
-    </HBox>
+    <!-- French Language Button -->
+    <Button fx:id="selectFrenchButton" 
+            text="French" 
+            style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+                   -fx-border-radius: 10; -fx-padding: 15;" 
+            onAction="#selectFrench" />
+</HBox>
 
-    <!-- Back to Home Button -->
-    <Button fx:id="goToHomeButton" 
-            text="Back to Home" 
-            style="-fx-background-color: #FFCCCC; -fx-border-color: #FF6666; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 10 20 10 20; -fx-text-fill: #CC0000;" 
-            onAction="#goToHome" />
+<!-- Back to Home Button -->
+<Button fx:id="goToHomeButton" 
+        text="Back to Home" 
+        style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+               -fx-border-radius: 10; -fx-padding: 15;" 
+        onAction="#goToHome" />
 
     <!-- Padding -->
     <padding>

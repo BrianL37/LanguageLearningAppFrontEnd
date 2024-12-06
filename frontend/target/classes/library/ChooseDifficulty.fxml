@@ -23,7 +23,7 @@
     </HBox>
 
     <!-- Back Button -->
-    <Button fx:id="homePageButton" text="Back to Homepage" onAction="#goToHomepage"
+    <Button fx:id="homePageButton" text="Back to Home" onAction="#goToHomepage"
             style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
                    -fx-border-radius: 10; -fx-padding: 15;" />
 </VBox>

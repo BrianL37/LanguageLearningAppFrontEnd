@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.LanguageLearningSystemFacade;
 import model.ForeignLanguage;
@@ -27,7 +28,28 @@ public class ChooseLanguageController {
     @FXML
     private Button goToHomeButton;
 
-    private LanguageLearningSystemFacade facade = LanguageLearningSystemFacade.getInstance();
+    @FXML private VBox root;
+
+    private LanguageLearningSystemFacade facade;
+    private boolean narrator;
+    
+    @FXML private void initialize() {
+        facade = LanguageLearningSystemFacade.getInstance();
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
+
+        if (facade.getUser().getSettings().getLightMode() == 0) {
+            root.setStyle("-fx-background-color: #36454F;");
+            selectGermanButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
+            selectSpanishButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
+            selectFrenchButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
+            goToHomeButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
+        } else {
+            selectGermanButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
+            selectSpanishButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
+            selectFrenchButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
+            goToHomeButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
+        }
+    }
 
     /**
      * Handles selecting the German language. Currently not available.

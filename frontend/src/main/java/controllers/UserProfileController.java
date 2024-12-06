@@ -40,8 +40,6 @@ public class UserProfileController {
     public void initialize() {
         // Get the instance of the facade
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
-        facade.getUser().getSettings().setTextToSpeech(1);
         narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         // Load current user data into fields
         User currentUser = facade.getUser();
