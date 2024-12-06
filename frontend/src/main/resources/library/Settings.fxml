@@ -8,28 +8,32 @@
 
 <VBox fx:id="root" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SettingsController">
     <!-- Screen Title -->
-    <Label text="Settings" styleClass="settings-title" />
+    <Label text="Settings" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #8CE1F5;" />
 
     <!-- Notifications Toggle -->
     <HBox alignment="CENTER_LEFT" spacing="20.0">
-        <Label text="Notifications:" styleClass="settings-label" />
+        <Label fx:id="notificationLabel" text="Notifications:" style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+               -fx-border-radius: 10; -fx-padding: 15;" />
         <CheckBox fx:id="notificationsToggle" />
     </HBox>
 
     <!-- Light Mode Toggle -->
     <HBox alignment="CENTER_LEFT" spacing="20.0">
-        <Label text="Light Mode:" styleClass="settings-label" />
+        <Label fx:id="lightLabel" text="Light Mode:" style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+               -fx-border-radius: 10; -fx-padding: 15;" />
         <CheckBox fx:id="lightModeToggle" />
     </HBox>
 
     <!-- Text to Speech Toggle -->
     <HBox alignment="CENTER_LEFT" spacing="20.0">
-        <Label text="Text to Speech:" styleClass="settings-label" />
+        <Label fx:id="ttsLabel" text="Text to Speech:" style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+               -fx-border-radius: 10; -fx-padding: 15;" />
         <CheckBox fx:id="textToSpeechToggle" />
     </HBox>
 
     <!-- Back Button -->
-    <Button fx:id="backButton" text="Back to Home" onAction="#goToHome" styleClass="back-button" />
+    <Button fx:id="backButton" text="Back to Home" onAction="#goToHome" style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; 
+                   -fx-border-radius: 10; -fx-padding: 15;" />
 
     <padding>
         <Insets top="20.0" right="40.0" bottom="20.0" left="40.0" />

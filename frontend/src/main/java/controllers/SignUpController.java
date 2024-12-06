@@ -6,6 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import model.LanguageLearningSystemFacade;
 import model.User;
@@ -112,15 +113,18 @@ public class SignUpController {
     @FXML
     public void switchToLogin() {
         try {
-            Stage stage = (Stage) firstNameField.getScene().getWindow();
+            // Load the login.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Login.fxml"));
-            Scene loginScene = new Scene(loader.load());
-            stage.setScene(loginScene);
-        } catch (IOException e) {
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to load Login.fxml. Check the file path.");
         }
     }
+    
 
     /**
      * Displays an alert dialog with the given title and message.

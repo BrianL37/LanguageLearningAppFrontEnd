@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
-
+import narrator.*;
 
 
 public class ChooseDifficultyController {
@@ -25,11 +25,12 @@ public class ChooseDifficultyController {
     private Button hardButton;
 
     @FXML private Button homePageButton;
-
+    private boolean narrator;
     @FXML
     public void initialize() {
         // Initialize the facade
         facade = LanguageLearningSystemFacade.getInstance();
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         if(facade.getUser().getSettings().getLightMode() == 0) {
             root.setStyle("-fx-background-color: #36454F;");
             easyButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
@@ -47,20 +48,41 @@ public class ChooseDifficultyController {
 
     @FXML
     public void selectEasy(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Easy selected",true);
+        }
         highlightButton(easyButton);
-        facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
+        if(facade.getUser().getLanguage() != null) {
+          facade.continueLanguage(facade.getUser().getLanguage());
+        } else {
+            facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
+        }
     }
 
     @FXML
     public void selectMedium(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Medium selected",true);
+        }
         highlightButton(mediumButton);
-        facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.MEDIUM);
+        if(facade.getUser().getLanguage() != null) {
+            facade.continueLanguage(facade.getUser().getLanguage());
+        } else {
+            facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.MEDIUM);
+        }
     }
 
     @FXML
     public void selectHard(ActionEvent event) {
+        if(narrator) {
+            Narrator.playSound("Hard selected",true);
+        }
         highlightButton(hardButton);
-        facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.HARD);
+        if(facade.getUser().getLanguage() != null) {
+            facade.continueLanguage(facade.getUser().getLanguage());
+        } else {
+            facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.HARD);
+        }
     }
 
 
@@ -76,14 +98,15 @@ public class ChooseDifficultyController {
             hardButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
             selectedButton.setStyle(selectedButton.getStyle() + "; -fx-border-color: black; -fx-border-width: 3;");
             }
-        // Highlight the selected button
-
     }
 
     @FXML
     public void goToHomepage() {
         try {
             // Load the login.fxml
+            if(narrator) {
+                Narrator.playSound("Back to home", true);
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
             Parent root = loader.load();
             // Get the current stage

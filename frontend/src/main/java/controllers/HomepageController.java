@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
@@ -28,6 +29,7 @@ public class HomepageController {
     @FXML
     private Label welcomeLabel;
     private boolean narrator;
+    @FXML Button settingsButton, logoutButton, lessonsButton, languageButton, profileButton, difficultyButton;
 
     /**
      * Initializes the homepage with the logged-in user's information.
@@ -39,20 +41,19 @@ public class HomepageController {
         narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         // Example: Use user data to personalize the homepage
         String welcomeMessage = "Welcome, " + facade.getUser().getFirstName() + "!";
-
+        homepageText.setFill(Color.web("#8CE1F5"));
+        descriptionText.setFill(Color.web("#8CE1F5"));
         if(facade.getUser().getSettings().getLightMode() == 0) {
             root.setStyle("-fx-background-color: #36454F;");
-            homepageText.setFill(Color.web("#8CE1F5"));
-            descriptionText.setFill(Color.web("#8CE1F5"));
+            settingsButton.setStyle(settingsButton.getStyle() + "-fx-text-fill: #36454F;");
+            logoutButton.setStyle(logoutButton.getStyle() + "-fx-text-fill: #36454F;");
+            lessonsButton.setStyle(lessonsButton.getStyle() + "-fx-text-fill: #36454F;");
+            languageButton.setStyle(languageButton.getStyle() + "-fx-text-fill: #36454F;");
+            profileButton.setStyle(profileButton.getStyle() + "-fx-text-fill: #36454F;");
+            difficultyButton.setStyle(difficultyButton.getStyle() + "-fx-text-fill: #36454F;");
+
         }
 
-    }
-
-    private String toHexString(Color color) {
-        return String.format("#%02X%02X%02X",
-                (int) (color.getRed() * 255),
-                (int) (color.getGreen() * 255),
-                (int) (color.getBlue() * 255));
     }
 
     @FXML
@@ -75,6 +76,7 @@ public class HomepageController {
         alert.setContentText("Are you sure you want to log out?");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                facade.logout();
                 Platform.exit(); // Close the application if the user confirms
             }
         });
@@ -124,6 +126,9 @@ public class HomepageController {
             showAlert("Please select a language first.");
             return;
         }
+        if(narrator) {
+            Narrator.playSound("Opening Choose Difficulty", true);
+            }
         changePage("/library/ChooseDifficulty.fxml");
         // Logic for selecting difficulty
     }

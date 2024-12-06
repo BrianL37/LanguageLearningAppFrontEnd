@@ -70,8 +70,6 @@ public class LanguageLearningSystemFacade {
   public boolean logout() {
     try {
       userList.saveUsers();
-      //boardGame.saveBoard();
-      //languageList.saveLanguages();  
       return true;
     } catch (Exception e) {
       return false;

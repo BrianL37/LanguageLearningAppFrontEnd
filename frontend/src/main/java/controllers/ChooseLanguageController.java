@@ -8,10 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.LanguageLearningSystemFacade;
-import model.ForeignLanguage;
-import model.LanguageDifficulty;
+import model.*;
 import java.io.IOException;
+import narrator.*;
 
 
 public class ChooseLanguageController {
@@ -56,6 +55,9 @@ public class ChooseLanguageController {
      */
     @FXML
     public void selectGerman() {
+        if(narrator) {
+            Narrator.playSound("Language currently not available", true);
+        }
         showInfoAlert("German is currently not available. Please select another language.");
     }
 
@@ -64,6 +66,9 @@ public class ChooseLanguageController {
      */
     @FXML
     public void selectSpanish() {
+        if(narrator) {
+            Narrator.playSound("Spanish selected", true);
+        }
         if(facade.getUser().getSettings().getLightMode() == 1) {
             selectSpanishButton.setStyle(selectSpanishButton.getStyle() + "; -fx-border-color: black; -fx-border-width: 3;");
         } else {
@@ -78,6 +83,9 @@ public class ChooseLanguageController {
      */
     @FXML
     public void selectFrench() {
+        if(narrator) {
+            Narrator.playSound("Language currently not available", true);
+        }
         showInfoAlert("French is currently not available. Please select another language.");
     }
 
@@ -86,8 +94,18 @@ public class ChooseLanguageController {
      */
           @FXML
     public void goToChooseDifficulty() {
+        if(!selectSpanishButton.getStyle().contains("-fx-border-color:")) {
+            if(narrator) {
+                Narrator.playSound("Please select a language before proceeding.", true);
+            }
+            showErrorAlert("Please select a language before proceeding.");
+            return;
+        } 
         try {
             // Load the login.fxml
+            if(narrator) {
+                Narrator.playSound("Choose difficulty", true);
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/ChooseDifficulty.fxml"));
             Parent root = loader.load();
             // Get the current stage

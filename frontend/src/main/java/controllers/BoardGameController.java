@@ -22,6 +22,7 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 
 public class BoardGameController {
     private Stage primaryStage;
@@ -47,8 +48,9 @@ public class BoardGameController {
     private ImageView arrow7;
     @FXML
     private ImageView arrow8;
-    @FXML
-    private ImageView arrow9;
+
+    @FXML private Button homeButton;
+    @FXML private ImageView arrow9;
     private List<ImageView> arrows;
     private int currentRow = 0;
     private int currentColumn = 0;
@@ -153,6 +155,7 @@ public class BoardGameController {
 
     public void updateBoardColors(boolean darkModeBoard) { 
         root.setStyle("-fx-background-color: #36454F;");
+        homeButton.setStyle(homeButton.getStyle() + "-fx-text-fill: #36454F;");
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) { 
             final int currentRow = row;
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) { 

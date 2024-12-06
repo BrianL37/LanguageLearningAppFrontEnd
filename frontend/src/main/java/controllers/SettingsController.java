@@ -31,6 +31,8 @@ public class SettingsController {
     @FXML
     private VBox root; // Root layout for the settings page
 
+    @FXML private Label notificationLabel, ttsLabel, lightLabel;
+    private boolean narrator;
 
     // Singleton instance of LanguageLearningSystemFacade
     private LanguageLearningSystemFacade facade = LanguageLearningSystemFacade.getInstance();
@@ -39,6 +41,7 @@ public class SettingsController {
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
         facade.login("JimSmith01", "SmithRocks");
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         
         notificationsToggle.setSelected(facade.getUser().getSettings().getNotifications() == 1); 
         lightModeToggle.setSelected(facade.getUser().getSettings().getLightMode() == 1);     
@@ -46,6 +49,10 @@ public class SettingsController {
         if(facade.getUser().getSettings().getLightMode() == 0) {
           toggleLightMode();
         }
+
+        notificationsToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            toggleNotifications();
+        });
 
         // Add listener to lightModeToggle to call the method when the state changes
         lightModeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -59,16 +66,19 @@ public class SettingsController {
 
     @FXML
     public void toggleNotifications() {
+        if(narrator) {
+            Narrator.playSound("Notifications toggled.", true);
+        }
         if (notificationsToggle.isSelected()) {
-            System.out.println("Notifications: On");
         } else {
-            System.out.println("Notifications: Off");
         }
     }
 
     public void toggleLightMode() {
+        if(narrator) {
+            Narrator.playSound("Light mode toggled.", true);
+        }
         boolean isOn = lightModeToggle.isSelected(); // Get the state of the toggle
-
         if (isOn) {
             facade.getUser().getSettings().setLightMode(1); // Set light mode on
 
@@ -76,10 +86,18 @@ public class SettingsController {
             root.setStyle("-fx-background-color: #FFFFFF;");
 
             // Set styles for other UI elements to match light mode
-            backButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-            notificationsToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-            lightModeToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-            textToSpeechToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+            backButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;" + 
+                   "-fx-border-radius: 10; -fx-padding: 15;" );
+            notificationsToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;");
+            lightModeToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;");
+            textToSpeechToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;");
+            notificationLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;" +
+               "-fx-border-radius: 10; -fx-padding: 15;");
+            ttsLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;" +
+               "-fx-border-radius: 10; -fx-padding: 15;");
+            lightLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white;" +
+               "-fx-border-radius: 10; -fx-padding: 15;");
+
         } else {
             facade.getUser().getSettings().setLightMode(0); // Set dark mode on
 
@@ -87,27 +105,37 @@ public class SettingsController {
             root.setStyle("-fx-background-color: #36454F;");
 
             // Set styles for other UI elements to match dark mode
-            backButton.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-            notificationsToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-            lightModeToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-            textToSpeechToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+            backButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;" + 
+                   "-fx-border-radius: 10; -fx-padding: 15;" );
+            notificationsToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
+            lightModeToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
+            textToSpeechToggle.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;");
+            notificationLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F" +
+            "-fx-border-radius: 10; -fx-padding: 15;");
+             ttsLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;" +
+            "-fx-border-radius: 10; -fx-padding: 15;");
+            lightLabel.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F;" +
+            "-fx-border-radius: 10; -fx-padding: 15;");
         }
     }
 
     @FXML
     public void toggleTextToSpeech() {
         if (textToSpeechToggle.isSelected()) {
-            System.out.println("Text to Speech: On");
-            Narrator.playSound("Text to Speech is enabled.", true); // Provide immediate feedback
             facade.getUser().getSettings().setTextToSpeech(1); // Set text to speech on
         } else {
             facade.getUser().getSettings().setTextToSpeech(0); // Set text to speech off
         }
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
+        Narrator.playSound("Text to Speech toggled.", true);
     }
 
     @FXML
     public void goToHome() {
         try {
+            if(narrator) {
+                Narrator.playSound("Back to home", true);
+            }
             // Load the login.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
             Parent root = loader.load();

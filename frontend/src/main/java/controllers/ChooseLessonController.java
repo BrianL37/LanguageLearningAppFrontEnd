@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
@@ -84,32 +86,62 @@ public class ChooseLessonController {
     
 
     @FXML
-    private void selectLesson() {
+    private void selectLesson() {        
         String selectedLesson = lessonListView.getSelectionModel().getSelectedItem();
         if (selectedLesson != null) {
-            facade.startLesson(LessonTopic.fromString(selectedLesson));
-            if(narrator) {
-                Narrator.playSound("You selected lesson", true);
-                Narrator.playSound(selectedLesson, true);
-            }
-            switchToQuestion();
+            if(facade.getUser().getLessonProgress(LessonTopic.fromString(selectedLesson)) > 8) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("You have already completed this lesson");
+                if(narrator) {
+                    Narrator.playSound("You have already completed this lesson." +
+                    "Are you sure you want to redo this lesson?", true);
+                }
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to redo this lesson?");
+                alert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        if(narrator) {
+                            Narrator.playSound("You selected lesson", true);
+                            Narrator.playSound(selectedLesson, true);
+                        }
+                        facade.startLesson(LessonTopic.fromString(selectedLesson));
+                        switchToQuestion();
+                }
+            });
+                } else {
+                    if(narrator) {
+                        Narrator.playSound("You selected lesson", true);
+                        Narrator.playSound(selectedLesson, true);
+                    }
+                    facade.startLesson(LessonTopic.fromString(selectedLesson));
+                    switchToQuestion();
+                }
         } else {
-            System.out.println("No lesson selected.");
+            showAlert("Please select a lesson first.");
         }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 
           @FXML
     public void switchToQuestion() {
-        try {
-            // Load the login.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/QuestionController.fxml"));
-            Parent root = loader.load();
-            // Get the current stage
-            Stage stage = (Stage) lessonListView.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 800));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    try {
+        // Load the login.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/QuestionController.fxml"));
+        Parent root = loader.load();
+        // Get the current stage
+        Stage stage = (Stage) lessonListView.getScene().getWindow();
+        stage.setScene(new Scene(root, 800, 800));
+        stage.show();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
     }
 }

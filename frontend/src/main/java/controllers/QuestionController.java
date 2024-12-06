@@ -193,6 +193,7 @@ public class QuestionController {
           initialize();
           return;
         case "Continue to Board":
+          facade.getUser().setModule(facade.getUser().getModule() + 1);
           switchToBoardGame();
           return;
         case "Advance":

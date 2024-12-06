@@ -73,26 +73,6 @@ public class DataWriter extends DataConstants{
         case HARD: spanishObject.put(DIFFICULTY, HARD); break;
       }
       spanishObject.put(MODULE, user.getModule());
-      JSONArray troubleArray = new JSONArray();
-      for(LessonTopic topic : LessonTopic.values()) {
-        HashMap<Question,Integer> map = user.getTrouble().get(topic);
-        for(Question question : map.keySet()) {
-          JSONObject troubleObject = new JSONObject();
-          troubleObject.put(TOPIC, topic);
-          troubleObject.put(QUESTIONTYPE, getQuestionType(question));
-          if(getQuestionType(question) instanceof FillBlank) {
-            FillBlank toSave = (FillBlank)question;
-            troubleObject.put(QUESTION_ID, toSave.getId());
-          }
-          else if(getQuestionType(question) instanceof MultipleChoice) {
-            MultipleChoice toSave = (MultipleChoice) question;
-            troubleObject.put(QUESTION_ID, toSave.getId());
-          }
-          troubleObject.put(INCORRECT, map.get(question));
-          troubleArray.add(troubleObject);
-        }
-      }
-      spanishObject.put(TROUBLE,troubleArray);
        JSONArray incompleteArray = new JSONArray();
        for(LessonTopic topic : LessonTopic.values()) {
         JSONObject topicObject = new JSONObject();
@@ -139,7 +119,6 @@ public class DataWriter extends DataConstants{
          incompleteArray.add(topicObject);
         }
        }
-       spanishObject.put(TROUBLE, troubleArray);
        spanishObject.put(INCOMPLETE, incompleteArray);
        languagesArray.add(spanishObject);
        userJSON.put(USER_LANGUAGES,languagesArray);

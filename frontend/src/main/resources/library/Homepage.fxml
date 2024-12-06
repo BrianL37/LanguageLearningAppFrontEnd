@@ -12,10 +12,10 @@
     <!-- Header Section -->
     <top>
         <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10;">
-            <Button text="Settings" onAction="#openSettings"
+            <Button fx:id="settingsButton" text="Settings" onAction="#openSettings"
                     style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white;"/>
             <HBox fx:id="spacer" HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#logout"
+            <Button fx:id="logoutButton" text="Logout" onAction="#logout"
                     style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white;"/>
         </HBox>
     </top>
@@ -23,9 +23,9 @@
     <!-- Center Section -->
     <center>
         <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
-            <Text fx:id="homepageText" text="Homepage" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
-            <Text fx:id="descriptionText" text="Learn Languages Effortlessly" style="-fx-font-size: 18px; -fx-font-style: italic;"/>
-            <Button text="Lessons" onAction="#startLesson"
+            <Text fx:id="homepageText" text="Homepage" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #8CE1F5"/>
+            <Text fx:id="descriptionText" text="Learn Languages Effortlessly" style="-fx-font-size: 18px; -fx-font-style: italic; -fx-text-fill: #8CE1F5"/>
+            <Button fx:id="lessonsButton" text="Lessons" onAction="#startLesson"
                     style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-padding: 15;"/>
         </VBox>
     </center>
@@ -33,13 +33,13 @@
     <!-- Bottom Section -->
     <bottom>
         <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
-            <Button text="Language" onAction="#selectLanguage"
+            <Button fx:id="languageButton" text="Language" onAction="#selectLanguage"
                     style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white;"/>
             <HBox fx:id="spacer1" HBox.hgrow="ALWAYS"/>
-            <Button text="User Profile" onAction="#viewUserProfile"
+            <Button fx:id="profileButton" text="User Profile" onAction="#viewUserProfile"
                     style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white;"/>
             <HBox fx:id="spacer2" HBox.hgrow="ALWAYS"/>
-            <Button text="Difficulty" onAction="#selectDifficulty"
+            <Button fx:id="difficultyButton" text="Difficulty" onAction="#selectDifficulty"
                     style="-fx-font-size: 14px; -fx-background-color: #8CE1F5; -fx-text-fill: white;"/>
         </HBox>
     </bottom>

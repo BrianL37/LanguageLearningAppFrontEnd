@@ -83,11 +83,17 @@ public class UserProfileController {
         }
 
         if (password.length() < 8) {
+            if(narrator) {
+                Narrator.playSound("Password must be at least 8 characters long.", true);
+            }
             showAlert(AlertType.ERROR, "Invalid Password", "Password must be at least 8 characters long.");
             return;
         }
 
         if (!email.contains("@")) {
+            if(narrator) {
+                Narrator.playSound("Please enter a valid email address.", true);
+            }
             showAlert(AlertType.ERROR, "Invalid Email", "Please enter a valid email address.");
             return;
         }
