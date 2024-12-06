@@ -8,7 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.LanguageLearningSystemFacade;
-import narrator.Narrator;
 
 public class SettingsController {
     @FXML
@@ -29,12 +28,16 @@ public class SettingsController {
     private BoardGameController boardGameController;
     private QuestionController questionController;
 
+    // Initialize the facade
+    private LanguageLearningSystemFacade facade = LanguageLearningSystemFacade.getInstance();
+
     public void setBoardGameController(BoardGameController boardGameController) {
         this.boardGameController = boardGameController;
     }
 
     public void setQuestionController(QuestionController questionController) {
-         this.questionController = questionController; }
+        this.questionController = questionController;
+    }
 
     private int fontSize = 12; // Default font size
 
@@ -43,6 +46,11 @@ public class SettingsController {
         notificationsToggle.setSelected(false); // Default state is "Off"
         lightModeToggle.setSelected(true);     // Default state is "On"
         textToSpeechToggle.setSelected(false); // Default state is "Off"
+        
+        // Add listener to lightModeToggle to call the method when the state changes
+        lightModeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            toggleLightMode(newValue);
+        });
     }
 
     @FXML
@@ -54,27 +62,27 @@ public class SettingsController {
         }
     }
 
-    @FXML
-    public void toggleLightMode() {
-        if (lightModeToggle.isSelected()) {
+    public void toggleLightMode(boolean isOn) {
+        if (isOn) {
             System.out.println("Light Mode: On");
+            facade.getUser().getSettings().setLightMode(0); // Set light mode on
             if (boardGameController != null) {
                 boardGameController.updateBoardColors(false); // Set dark mode to false
             }
-            if (questionController != null) 
-            { questionController.toggleDarkMode(); // Set to light mode }
+            if (questionController != null) {
+                questionController.toggleDarkMode(); // Ensure questionController handles light mode properly
+            }
         } else {
             System.out.println("Light Mode: Off");
+            facade.getUser().getSettings().setLightMode(1); // Set dark mode on
             if (boardGameController != null) {
                 boardGameController.updateBoardColors(true); // Set dark mode to true
             }
-            if (questionController != null) { 
-                questionController.toggleDarkMode(); // Set to dark mode 
+            if (questionController != null) {
+                questionController.toggleDarkMode(); // Ensure questionController handles dark mode properly
             }
         }
     }
-    }
-    
 
     @FXML
     public void toggleTextToSpeech() {
