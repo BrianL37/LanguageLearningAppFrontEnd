@@ -70,10 +70,6 @@ public class BoardGameController {
         hideAllArrows();
         primaryStage = new Stage();
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
-        facade.startLanguage(ForeignLanguage.SPANISH, LanguageDifficulty.EASY);
-        facade.getUser().setLanguageProgress(50);
-        facade.getUser().changeSetting(1, 0);
         // Load the image directly in the controller
         Image playerImage = new Image(getClass().getResource("/images/player.png").toExternalForm());
         playerIcon.setImage(playerImage);
@@ -141,10 +137,10 @@ public class BoardGameController {
         }
     }
       @FXML
-    public void switchToChooseLesson() {
+    public void switchToHome() {
         try {
             // Load the login.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/ChooseLesson.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
             Parent root = loader.load();
             // Get the current stage
             Stage stage = (Stage) gridPane.getScene().getWindow();

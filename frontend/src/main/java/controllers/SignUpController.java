@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import model.LanguageLearningSystemFacade;
 import model.User;
 import model.UserList;
 
@@ -30,7 +31,12 @@ public class SignUpController {
     @FXML
     private PasswordField passwordField;
 
-    private UserList userList = UserList.getInstance(); // Singleton for user management
+    private LanguageLearningSystemFacade facade;
+
+
+    private void initialize() {
+        facade = LanguageLearningSystemFacade.getInstance();
+    }
 
     /**
      * Handles the signup process by validating the inputs, creating a new user,
@@ -57,10 +63,7 @@ public class SignUpController {
 
         // Add user to UserList
         UUID userID = UUID.randomUUID();
-        userList.addUser(firstName, lastName, username, password, email, userID);
-
-        // Save user data
-        userList.saveUsers();
+        facade.signUp(firstName, lastName, username, password, email, userID);
 
         showAlert("Success", "Account created successfully!");
         switchToLogin();
@@ -95,7 +98,7 @@ public class SignUpController {
      * @return true if the username is taken; false otherwise.
      */
     private boolean isUsernameTaken(String username) {
-        for (User user : userList.getAllUsers()) {
+        for (User user : facade.getAllUsers()) {
             if (user.getUserName().equals(username)) {
                 return true;
             }

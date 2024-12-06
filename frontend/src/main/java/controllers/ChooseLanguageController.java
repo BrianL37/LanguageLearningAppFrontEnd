@@ -26,7 +26,7 @@ public class ChooseLanguageController {
     private Button selectFrenchButton;
 
     @FXML
-    private Button goToHomeButton;
+    private Button goToDifficultyButton;
 
     @FXML private VBox root;
 
@@ -42,12 +42,12 @@ public class ChooseLanguageController {
             selectGermanButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
             selectSpanishButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
             selectFrenchButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
-            goToHomeButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
+            goToDifficultyButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");
         } else {
             selectGermanButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
             selectSpanishButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
             selectFrenchButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
-            goToHomeButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
+            goToDifficultyButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-border-radius: 10; -fx-padding: 15;");
         }
     }
 
@@ -64,17 +64,12 @@ public class ChooseLanguageController {
      */
     @FXML
     public void selectSpanish() {
-        try {
-            // Load the login.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/ChooseDifficulty.fxml"));
-            Parent root = loader.load();
-            // Get the current stage
-            Stage stage = (Stage) selectFrenchButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 800));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(facade.getUser().getSettings().getLightMode() == 1) {
+            selectSpanishButton.setStyle(selectSpanishButton.getStyle() + "; -fx-border-color: black; -fx-border-width: 3;");
+        } else {
+            selectSpanishButton.setStyle(selectSpanishButton.getStyle() + "; -fx-border-color: white; -fx-border-width: 3;");
         }
+        
     }
     
 
@@ -90,10 +85,10 @@ public class ChooseLanguageController {
      * Navigates back to the homepage screen.
      */
           @FXML
-    public void goToHome() {
+    public void goToChooseDifficulty() {
         try {
             // Load the login.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/ChooseDifficulty.fxml"));
             Parent root = loader.load();
             // Get the current stage
             Stage stage = (Stage) selectFrenchButton.getScene().getWindow();

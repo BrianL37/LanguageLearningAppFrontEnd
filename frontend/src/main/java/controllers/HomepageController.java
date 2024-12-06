@@ -1,12 +1,15 @@
 package controllers;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -64,11 +67,19 @@ public class HomepageController {
     @FXML
     private void logout(ActionEvent event) {
         if(narrator) {
-            Narrator.playSound("Logging Out", true);
+            Narrator.playSound("Are you sure you want to log out?", true);
             }
-        showAlert("Logging out...");
-        // Logic to navigate to Login screen
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Logout Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to log out?");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                Platform.exit(); // Close the application if the user confirms
+            }
+        });
     }
+    
 
     @FXML
     private void startLesson(ActionEvent event) {

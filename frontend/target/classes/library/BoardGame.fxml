@@ -99,7 +99,7 @@
             <children> <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"> <image> <Image url="@../images/trophy.png" /> </image> </ImageView> </children> </StackPane>
         </children>
     </GridPane>
-    <Button layoutX="340" layoutY="600" text="Choose Next Lesson" onAction="#switchToChooseLesson" />
+    <Button layoutX="340" layoutY="600" text="Back to Home" onAction="#switchToHome" />
 </AnchorPane>
 </children>
 </VBox>
