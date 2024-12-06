@@ -44,11 +44,14 @@ public class SettingsController {
         lightModeToggle.setSelected(facade.getUser().getSettings().getLightMode() == 1);     
         textToSpeechToggle.setSelected(facade.getUser().getSettings().getTextToSpeech() == 1);  
 
+        // Apply initial style based on light mode state
+        toggleLightMode();
 
         // Add listener to lightModeToggle to call the method when the state changes
         lightModeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            toggleLightMode(newValue);
+            toggleLightMode();
         });
+
         textToSpeechToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             toggleTextToSpeech();
         });
@@ -63,32 +66,33 @@ public class SettingsController {
         }
     }
 
-    public void toggleLightMode(boolean isOn) {
-    if (isOn) {
-        facade.getUser().getSettings().setLightMode(1); // Set light mode on
-        // Change background color of the settings page to light mode
-        root.setStyle("-fx-background-color: #FFFFFF;");
+    public void toggleLightMode() {
+        boolean isOn = lightModeToggle.isSelected(); // Get the state of the toggle
 
-        // Set styles for other UI elements to match light mode
-        backButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-        notificationsToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-        lightModeToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
-        textToSpeechToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+        if (isOn) {
+            facade.getUser().getSettings().setLightMode(1); // Set light mode on
 
+            // Change background color of the settings page to light mode
+            root.setStyle("-fx-background-color: #FFFFFF;");
 
-    } else {
-        facade.getUser().getSettings().setLightMode(0); // Set dark mode on
-        // Change background color of the settings page to dark mode
-        root.setStyle("-fx-background-color: #36454F;");
-        // Set styles for other UI elements to match dark mode
-        backButton.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-        notificationsToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-        lightModeToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
-        textToSpeechToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+            // Set styles for other UI elements to match light mode
+            backButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+            notificationsToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+            lightModeToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+            textToSpeechToggle.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: #000000;");
+        } else {
+            facade.getUser().getSettings().setLightMode(0); // Set dark mode on
 
+            // Change background color of the settings page to dark mode
+            root.setStyle("-fx-background-color: #36454F;");
+
+            // Set styles for other UI elements to match dark mode
+            backButton.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+            notificationsToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+            lightModeToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+            textToSpeechToggle.setStyle("-fx-background-color: #36454F; -fx-text-fill: #FFFFFF;");
+        }
     }
-}
-
 
     @FXML
     public void toggleTextToSpeech() {
