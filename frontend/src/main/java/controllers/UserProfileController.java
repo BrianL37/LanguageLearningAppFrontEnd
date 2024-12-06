@@ -1,14 +1,20 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import model.LanguageLearningSystemFacade;
+import model.User;
 
 public class UserProfileController {
 
     @FXML
-    private TextField firstNameField; // Updated nameField to firstNameField
+    private TextField firstNameField;
 
     @FXML
     private TextField lastNameField;
@@ -22,12 +28,25 @@ public class UserProfileController {
     @FXML
     private TextField emailField;
 
+    private LanguageLearningSystemFacade facade;
+
     /**
      * Initializes the controller. This method is called automatically
      * after the FXML file has been loaded.
      */
     public void initialize() {
-        // Placeholder: Initialize fields with default or existing user data if available
+        // Get the instance of the facade
+        facade = LanguageLearningSystemFacade.getInstance();
+
+        // Load current user data into fields
+        User currentUser = facade.getUser();
+        if (currentUser != null) {
+            firstNameField.setText(currentUser.getFirstName());
+            lastNameField.setText(currentUser.getLastName());
+            usernameField.setText(currentUser.getUserName());
+            passwordField.setText(currentUser.getPassword());
+            emailField.setText(currentUser.getEmail());
+        }
     }
 
     /**
@@ -53,16 +72,19 @@ public class UserProfileController {
             return;
         }
 
-        // Placeholder: Save data to database or other storage
-        System.out.println("User Profile Updated:");
-        System.out.println("First Name: " + firstName);
-        System.out.println("Last Name: " + lastName);
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        System.out.println("Email: " + email);
+        // Update user data using the facade
+        try {
+            facade.editUser(0, firstName); // Assuming 0 corresponds to firstName
+            facade.editUser(1, lastName);  // Assuming 1 corresponds to lastName
+            facade.editUser(2, username); // Assuming 2 corresponds to username
+            facade.editUser(3, password); // Assuming 3 corresponds to password
+            facade.editUser(4, email);    // Assuming 4 corresponds to email
 
-        // Notify user of successful update
-        showAlert(AlertType.INFORMATION, "Success", "Profile updated successfully!");
+            showAlert(AlertType.INFORMATION, "Success", "Profile updated successfully!");
+        } catch (Exception e) {
+            showAlert(AlertType.ERROR, "Error", "Failed to update profile. Please try again.");
+        }
+        changePage();
     }
 
     /**
@@ -78,5 +100,19 @@ public class UserProfileController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+              @FXML
+    public void changePage() {
+        try {
+            // Load the login.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/library/Homepage.fxml"));
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

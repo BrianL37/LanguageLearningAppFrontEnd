@@ -49,6 +49,10 @@ public class HomepageController {
 
     @FXML
     private void startLesson(ActionEvent event) {
+        if(facade.getLanguage() == null) {
+            showAlert("Please select a language and difficulty level first.");
+            return;
+        }
         changePage("/library/ChooseLesson.fxml");
         // Logic to start a lesson
     }
@@ -67,12 +71,18 @@ public class HomepageController {
 
     @FXML
     private void selectDifficulty(ActionEvent event) {
+        if(facade.getLanguage() == null) {
+            showAlert("Please select a language first.");
+            return;
+        }
         changePage("/library/ChooseDifficulty.fxml");
         // Logic for selecting difficulty
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

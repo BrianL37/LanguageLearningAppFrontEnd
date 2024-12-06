@@ -32,6 +32,10 @@ public class SignUpController {
 
     private UserList userList = UserList.getInstance(); // Singleton for user management
 
+    /**
+     * Handles the signup process by validating the inputs, creating a new user,
+     * and saving it to persistent storage.
+     */
     @FXML
     public void handleSignup() {
         String firstName = firstNameField.getText();
@@ -41,13 +45,13 @@ public class SignUpController {
         String password = passwordField.getText();
 
         // Validate input
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "All fields must be filled out.");
+        if (!validateInputs(firstName, lastName, email, username, password)) {
             return;
         }
 
-        if (password.length() < 8) {
-            showAlert("Error", "Password must be at least 8 characters long.");
+        // Check for existing username
+        if (isUsernameTaken(username)) {
+            showAlert("Error", "Username is already taken. Please choose another one.");
             return;
         }
 
@@ -62,6 +66,46 @@ public class SignUpController {
         switchToLogin();
     }
 
+    /**
+     * Validates the inputs for signup.
+     * @return true if all inputs are valid; false otherwise.
+     */
+    private boolean validateInputs(String firstName, String lastName, String email, String username, String password) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            showAlert("Error", "All fields must be filled out.");
+            return false;
+        }
+
+        if (password.length() < 8) {
+            showAlert("Error", "Password must be at least 8 characters long.");
+            return false;
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            showAlert("Error", "Invalid email format.");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the given username is already taken.
+     * @param username The username to check.
+     * @return true if the username is taken; false otherwise.
+     */
+    private boolean isUsernameTaken(String username) {
+        for (User user : userList.getAllUsers()) {
+            if (user.getUserName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Switches to the login screen.
+     */
     @FXML
     public void switchToLogin() {
         try {
@@ -75,6 +119,11 @@ public class SignUpController {
         }
     }
 
+    /**
+     * Displays an alert dialog with the given title and message.
+     * @param title   The title of the alert.
+     * @param message The message to display in the alert.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
