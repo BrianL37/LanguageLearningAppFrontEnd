@@ -3,30 +3,31 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import model.LanguageLearningSystemFacade;
 import model.ForeignLanguage;
 
 public class ChooseLanguageController {
-@FXML
-private Button selectGermanButton;
+    @FXML
+    private Button selectGermanButton;
 
-@FXML
-private Button selectSpanishButton;
+    @FXML
+    private Button selectSpanishButton;
 
-@FXML
-private Button selectFrenchButton;
+    @FXML
+    private Button selectFrenchButton;
 
-@FXML
-private Button goToHomeButton;
+    @FXML
+    private Button goToHomeButton;
 
     private LanguageLearningSystemFacade facade = LanguageLearningSystemFacade.getInstance();
 
     @FXML
     public void selectGerman() {
         System.out.println("German selected!");
-        // Optional: Add functionality if needed
+        showWorkInProgressAlert();
     }
 
     @FXML
@@ -50,7 +51,7 @@ private Button goToHomeButton;
     @FXML
     public void selectFrench() {
         System.out.println("French selected!");
-        // Optional: Add functionality if needed
+        showWorkInProgressAlert();
     }
 
     @FXML
@@ -68,7 +69,20 @@ private Button goToHomeButton;
         }
     }
 
+    private void showWorkInProgressAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Work in Progress");
+        alert.setHeaderText(null);
+        alert.setContentText("This feature is still being developed. Please check back later!");
+        alert.showAndWait();
+    }
+
     private void showErrorAlert(String message) {
         System.err.println(message);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
