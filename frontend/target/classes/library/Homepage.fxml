@@ -23,8 +23,8 @@
     <!-- Center Section -->
     <center>
         <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
-            <Text text="Homepage" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
-            <Text text="Learn Languages Effortlessly" style="-fx-font-size: 18px; -fx-font-style: italic;"/>
+            <Text fx:id="homepageText" text="Homepage" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <Text fx:id="descriptionText" text="Learn Languages Effortlessly" style="-fx-font-size: 18px; -fx-font-style: italic;"/>
             <Button text="Lessons" onAction="#startLesson"
                     style="-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: white; -fx-padding: 15;"/>
         </VBox>

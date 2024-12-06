@@ -31,9 +31,9 @@
     <!-- Font Size Adjuster -->
     <HBox alignment="CENTER_LEFT" spacing="20.0">
         <Label text="Font Size:" styleClass="settings-label" />
-        <Button text="-" onAction="#decreaseFontSize" styleClass="adjust-button" />
+        <Button text="-" styleClass="adjust-button" />
         <Label fx:id="fontSizeLabel" text="12" styleClass="font-size-display" />
-        <Button text="+" onAction="#increaseFontSize" styleClass="adjust-button" />
+        <Button text="+" styleClass="adjust-button" />
     </HBox>
 
     <!-- Back Button -->

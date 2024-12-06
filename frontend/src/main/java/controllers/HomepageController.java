@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +10,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.LanguageLearningSystemFacade;
-import model.User;
+import javafx.util.Duration;
+import model.*;
+import javafx.scene.paint.Color;
+
 
 public class HomepageController {
     @FXML private BorderPane root;
-
+    @FXML private Text homepageText, descriptionText;
     private LanguageLearningSystemFacade facade;
     @FXML
     private Label welcomeLabel;
@@ -27,11 +31,19 @@ public class HomepageController {
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
         facade.login("JimSmith01", "SmithRocks");
+        facade.getUser().getSettings().setLightMode(0);
         // Example: Use user data to personalize the homepage
         String welcomeMessage = "Welcome, " + facade.getUser().getFirstName() + "!";
         welcomeLabel = new Label();
         welcomeLabel.setText(welcomeMessage);
- 
+        PauseTransition delay = new PauseTransition(Duration.seconds(0.3)); 
+        delay.setOnFinished(event -> showAlert(welcomeMessage));
+        delay.play();
+        if(facade.getUser().getSettings().getLightMode() == 0) {
+            root.setStyle("-fx-background-color: #36454F;");
+            homepageText.setFill(Color.WHITE);
+            descriptionText.setFill(Color.WHITE);
+        }
 
     }
 
@@ -84,7 +96,7 @@ public class HomepageController {
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.show();
     }
 
           @FXML
