@@ -30,8 +30,6 @@ public class ChooseDifficultyController {
     public void initialize() {
         // Initialize the facade
         facade = LanguageLearningSystemFacade.getInstance();
-        facade.login("JimSmith01", "SmithRocks");
-        facade.getUser().getSettings().setLightMode(0);
         if(facade.getUser().getSettings().getLightMode() == 0) {
             root.setStyle("-fx-background-color: #36454F;");
             easyButton.setStyle("-fx-font-size: 18px; -fx-background-color: #8CE1F5; -fx-text-fill: #36454F; -fx-border-radius: 10; -fx-padding: 15;");

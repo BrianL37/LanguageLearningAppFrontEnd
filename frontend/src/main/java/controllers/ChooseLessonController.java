@@ -26,15 +26,15 @@ public class ChooseLessonController {
     private ListView<String> lessonListView;
     @FXML
     private VBox root;
-
+    private boolean narrator;
     public void initialize() {
         facade = LanguageLearningSystemFacade.getInstance();
-    
+        narrator = facade.getUser().getSettings().getTextToSpeech() == 1;
         for (LessonTopic topic : LessonTopic.values()) {
             lessonListView.getItems().add(topic.name());
         }
     
-        if (facade.getUser().getSettings().getTextToSpeech() == 1) {
+        if (narrator) {
             Narrator.playSound("Please choose a lesson", true);
             lessonListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -88,7 +88,7 @@ public class ChooseLessonController {
         String selectedLesson = lessonListView.getSelectionModel().getSelectedItem();
         if (selectedLesson != null) {
             facade.startLesson(LessonTopic.fromString(selectedLesson));
-            if(facade.getUser().getSettings().getTextToSpeech() == 1) {
+            if(narrator) {
                 Narrator.playSound("You selected lesson", true);
                 Narrator.playSound(selectedLesson, true);
             }
